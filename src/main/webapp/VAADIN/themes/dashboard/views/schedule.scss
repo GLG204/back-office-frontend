@@ -32,7 +32,7 @@
       color: $v-focus-color;
     }
 
-    .tray{
+    .tray {
       position: relative;
       padding: round($view-padding/2) $view-padding;
       background: $v-overlay-background-color;
@@ -44,8 +44,8 @@
 
       &.v-animate-reveal {
         -ms-transform: translateY(-100%);
-          -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
       }
     }
 
@@ -56,9 +56,9 @@
         cursor: pointer;
 
         .v-image {
-          @include box-shadow(0 2px 5px rgba(0,0,0,.5));
+          @include box-shadow(0 2px 5px rgba(0, 0, 0, .5));
           border-radius: 2px;
-          border: 2px solid rgba(255,255,255,.1);
+          border: 2px solid rgba(255, 255, 255, .1);
         }
 
         &:hover .v-image {

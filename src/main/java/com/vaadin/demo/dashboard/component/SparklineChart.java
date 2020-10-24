@@ -34,8 +34,8 @@ import com.vaadin.ui.themes.ValoTheme;
 public class SparklineChart extends VerticalLayout {
 
     public SparklineChart(final String name, final String unit,
-            final String prefix, final Color color, final int howManyPoints,
-            final int min, final int max) {
+                          final String prefix, final Color color, final int howManyPoints,
+                          final int min, final int max) {
         setSizeUndefined();
         addStyleName("spark");
         setMargin(false);
@@ -73,9 +73,14 @@ public class SparklineChart extends VerticalLayout {
 
     private Component buildSparkline(final int[] values, final Color color) {
         Chart spark = new Chart();
-        spark.getConfiguration().setTitle("");
-        spark.getConfiguration().getChart().setType(ChartType.LINE);
-        spark.getConfiguration().getChart().setAnimation(false);
+        spark.getConfiguration()
+             .setTitle("");
+        spark.getConfiguration()
+             .getChart()
+             .setType(ChartType.LINE);
+        spark.getConfiguration()
+             .getChart()
+             .setAnimation(false);
         spark.setWidth("120px");
         spark.setHeight("40px");
 
@@ -84,8 +89,11 @@ public class SparklineChart extends VerticalLayout {
             DataSeriesItem item = new DataSeriesItem("", values[i]);
             series.add(item);
         }
-        spark.getConfiguration().setSeries(series);
-        spark.getConfiguration().getTooltip().setEnabled(false);
+        spark.getConfiguration()
+             .setSeries(series);
+        spark.getConfiguration()
+             .getTooltip()
+             .setEnabled(false);
 
         Configuration conf = series.getConfiguration();
         Legend legend = new Legend();
@@ -93,7 +101,8 @@ public class SparklineChart extends VerticalLayout {
         conf.setLegend(legend);
 
         Credits c = new Credits("");
-        spark.getConfiguration().setCredits(c);
+        spark.getConfiguration()
+             .setCredits(c);
 
         PlotOptionsLine opts = new PlotOptionsLine();
         opts.setAllowPointSelect(false);
@@ -105,10 +114,13 @@ public class SparklineChart extends VerticalLayout {
         opts.setMarker(new Marker(false));
         opts.setEnableMouseTracking(false);
         opts.setAnimation(false);
-        spark.getConfiguration().setPlotOptions(opts);
+        spark.getConfiguration()
+             .setPlotOptions(opts);
 
-        XAxis xAxis = spark.getConfiguration().getxAxis();
-        YAxis yAxis = spark.getConfiguration().getyAxis();
+        XAxis xAxis = spark.getConfiguration()
+                           .getxAxis();
+        YAxis yAxis = spark.getConfiguration()
+                           .getyAxis();
 
         SolidColor transparent = new SolidColor(0, 0, 0, 0);
 

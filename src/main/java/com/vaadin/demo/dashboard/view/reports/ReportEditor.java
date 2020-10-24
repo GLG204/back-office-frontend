@@ -33,7 +33,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SuppressWarnings({ "serial", "unchecked" })
+@SuppressWarnings({"serial", "unchecked"})
 public final class ReportEditor extends VerticalLayout {
 
     private final ReportEditorListener listener;
@@ -86,7 +86,8 @@ public final class ReportEditor extends VerticalLayout {
     }
 
     private Component buildPaletteItem(final PaletteItemType type) {
-        Label caption = new Label(type.getIcon().getHtml() + type.getTitle(),
+        Label caption = new Label(type.getIcon()
+                                      .getHtml() + type.getTitle(),
                 ContentMode.HTML);
         caption.setSizeUndefined();
 
@@ -98,7 +99,7 @@ public final class ReportEditor extends VerticalLayout {
     }
 
     public void addWidget(final PaletteItemType paletteItemType,
-            final Object prefillData) {
+                          final Object prefillData) {
         canvas.addComponent(paletteItemType, prefillData);
     }
 
@@ -165,7 +166,7 @@ public final class ReportEditor extends VerticalLayout {
         }
 
         public void addComponent(final PaletteItemType paletteItemType,
-                final Object prefillData) {
+                                 final Object prefillData) {
             if (placeholder.getParent() != null) {
                 layout.removeComponent(placeholder);
             }
@@ -242,7 +243,7 @@ public final class ReportEditor extends VerticalLayout {
                     }
 
                     if (dropTargetData.getData("verticalLocation")
-                            .equals(VerticalDropLocation.TOP.toString())) {
+                                      .equals(VerticalDropLocation.TOP.toString())) {
                         index--;
                         if (index <= 0) {
                             index = 1;
@@ -273,7 +274,7 @@ public final class ReportEditor extends VerticalLayout {
 
                     // drop on top of target?
                     if (dropTargetData.getData("verticalLocation")
-                            .equals(VerticalDropLocation.MIDDLE.toString())) {
+                                      .equals(VerticalDropLocation.MIDDLE.toString())) {
                         if (sourceWasAfterTarget) {
                             index--;
                         }
@@ -281,7 +282,7 @@ public final class ReportEditor extends VerticalLayout {
 
                     // drop before the target?
                     else if (dropTargetData.getData("verticalLocation")
-                            .equals(VerticalDropLocation.TOP.toString())) {
+                                           .equals(VerticalDropLocation.TOP.toString())) {
                         index--;
                         if (index <= 0) {
                             index = 1;
@@ -304,8 +305,8 @@ public final class ReportEditor extends VerticalLayout {
     public enum PaletteItemType {
         TEXT("Text Block", FontAwesome.FONT), TABLE("Top 10 Movies",
                 FontAwesome.TABLE), CHART("Top 6 Revenue",
-                        FontAwesome.BAR_CHART_O), TRANSACTIONS(
-                                "Latest transactions", null);
+                FontAwesome.BAR_CHART_O), TRANSACTIONS(
+                "Latest transactions", null);
 
         private final String title;
         private final FontAwesome icon;

@@ -51,7 +51,8 @@ public class ReportsViewIT extends TestBenchTestCase {
 
     @After
     public void tearDown() {
-        loginView.getDriver().quit();
+        loginView.getDriver()
+                 .quit();
     }
 
 }

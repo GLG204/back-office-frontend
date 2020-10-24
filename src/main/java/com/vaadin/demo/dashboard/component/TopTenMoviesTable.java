@@ -18,7 +18,7 @@ public final class TopTenMoviesTable extends Table {
 
     @Override
     protected String formatPropertyValue(final Object rowId, final Object colId,
-            final Property<?> property) {
+                                         final Property<?> property) {
         String result = super.formatPropertyValue(rowId, colId, property);
         if (colId.equals("revenue")) {
             if (property != null && property.getValue() != null) {
@@ -46,11 +46,13 @@ public final class TopTenMoviesTable extends Table {
         setSizeFull();
 
         List<MovieRevenue> movieRevenues = new ArrayList<MovieRevenue>(
-                DashboardUI.getDataProvider().getTotalMovieRevenues());
+                DashboardUI.getDataProvider()
+                           .getTotalMovieRevenues());
         Collections.sort(movieRevenues, new Comparator<MovieRevenue>() {
             @Override
             public int compare(final MovieRevenue o1, final MovieRevenue o2) {
-                return o2.getRevenue().compareTo(o1.getRevenue());
+                return o2.getRevenue()
+                         .compareTo(o1.getRevenue());
             }
         });
 

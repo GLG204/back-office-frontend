@@ -18,14 +18,21 @@ public class TBProfileWindow extends TestBenchTestCase {
     }
 
     public void setName(String firstName, String lastName) {
-        scope.$(TextFieldElement.class).caption("First Name").first()
-                .setValue(firstName);
-        scope.$(TextFieldElement.class).caption("Last Name").first()
-                .setValue(lastName);
+        scope.$(TextFieldElement.class)
+             .caption("First Name")
+             .first()
+             .setValue(firstName);
+        scope.$(TextFieldElement.class)
+             .caption("Last Name")
+             .first()
+             .setValue(lastName);
     }
 
     public void commit() {
-        scope.$(ButtonElement.class).caption("OK").first().click();
+        scope.$(ButtonElement.class)
+             .caption("OK")
+             .first()
+             .click();
     }
 
 }

@@ -52,14 +52,16 @@ public class SalesView extends VerticalLayout implements View {
         initMovieSelect();
         // Add first 4 by default
         List<Movie> subList = new ArrayList<Movie>(
-                DashboardUI.getDataProvider().getMovies()).subList(0, 4);
+                DashboardUI.getDataProvider()
+                           .getMovies()).subList(0, 4);
         for (Movie m : subList) {
             addDataSet(m);
         }
     }
 
     private void initMovieSelect() {
-        movies = new HashSet<>(DashboardUI.getDataProvider().getMovies());
+        movies = new HashSet<>(DashboardUI.getDataProvider()
+                                          .getMovies());
         movieSelect.setItems(movies);
     }
 
@@ -87,7 +89,7 @@ public class SalesView extends VerticalLayout implements View {
                 new ShortcutListener("Add", KeyCode.ENTER, null) {
                     @Override
                     public void handleAction(final Object sender,
-                            final Object target) {
+                                             final Object target) {
                         addDataSet(movieSelect.getValue());
                     }
                 });
@@ -108,7 +110,8 @@ public class SalesView extends VerticalLayout implements View {
         clear.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
-                timeline.getConfiguration().setSeries(new ArrayList<>());
+                timeline.getConfiguration()
+                        .setSeries(new ArrayList<>());
                 timeline.drawChart();
                 initMovieSelect();
                 clear.setEnabled(false);
@@ -133,9 +136,12 @@ public class SalesView extends VerticalLayout implements View {
 
         result.setTimeline(true);
 
-        result.getConfiguration().getRangeSelector().setEnabled(false);
+        result.getConfiguration()
+              .getRangeSelector()
+              .setEnabled(false);
 
-        Legend legend = result.getConfiguration().getLegend();
+        Legend legend = result.getConfiguration()
+                              .getLegend();
         legend.setAlign(HorizontalAlign.RIGHT);
         legend.setVerticalAlign(VerticalAlign.TOP);
         legend.setEnabled(true);
@@ -145,10 +151,11 @@ public class SalesView extends VerticalLayout implements View {
     private void addDataSet(final Movie movie) {
         movies.remove(movie);
         movieSelect.setValue(null);
-        movieSelect.getDataProvider().refreshAll();
+        movieSelect.getDataProvider()
+                   .refreshAll();
 
         Collection<MovieRevenue> revenues = DashboardUI.getDataProvider()
-                .getDailyRevenuesByMovie(movie.getId());
+                                                       .getDailyRevenuesByMovie(movie.getId());
 
         DataSeries movieSeries = new DataSeries();
         for (MovieRevenue revenue : revenues) {
@@ -158,7 +165,8 @@ public class SalesView extends VerticalLayout implements View {
             movieSeries.add(item);
         }
         movieSeries.setName(movie.getTitle());
-        timeline.getConfiguration().addSeries(movieSeries);
+        timeline.getConfiguration()
+                .addSeries(movieSeries);
         timeline.drawChart();
     }
 

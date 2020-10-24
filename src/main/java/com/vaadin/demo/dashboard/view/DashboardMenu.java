@@ -44,7 +44,7 @@ import com.vaadin.v7.ui.Table;
  * A responsive menu component providing user information and the controls for
  * primary navigation between the views.
  */
-@SuppressWarnings({ "serial", "unchecked" })
+@SuppressWarnings({"serial", "unchecked"})
 public final class DashboardMenu extends CustomComponent {
 
     public static final String ID = "dashboard-menu";
@@ -97,7 +97,7 @@ public final class DashboardMenu extends CustomComponent {
 
     private User getCurrentUser() {
         return (User) VaadinSession.getCurrent()
-                .getAttribute(User.class.getName());
+                                   .getAttribute(User.class.getName());
     }
 
     private Component buildUserMenu() {
@@ -134,7 +134,7 @@ public final class DashboardMenu extends CustomComponent {
             @Override
             public void buttonClick(final ClickEvent event) {
                 if (getCompositionRoot().getStyleName()
-                        .contains(STYLE_VISIBLE)) {
+                                        .contains(STYLE_VISIBLE)) {
                     getCompositionRoot().removeStyleName(STYLE_VISIBLE);
                 } else {
                     getCompositionRoot().addStyleName(STYLE_VISIBLE);
@@ -165,10 +165,12 @@ public final class DashboardMenu extends CustomComponent {
 
                     @Override
                     public void drop(final DragAndDropEvent event) {
-                        UI.getCurrent().getNavigator().navigateTo(
-                                DashboardViewType.REPORTS.getViewName());
+                        UI.getCurrent()
+                          .getNavigator()
+                          .navigateTo(
+                                  DashboardViewType.REPORTS.getViewName());
                         Table table = (Table) event.getTransferable()
-                                .getSourceComponent();
+                                                   .getSourceComponent();
                         DashboardEventBus.post(new TransactionReportEvent(
                                 (Collection<Transaction>) table.getValue()));
                     }
@@ -202,7 +204,7 @@ public final class DashboardMenu extends CustomComponent {
     }
 
     private Component buildBadgeWrapper(final Component menuItemButton,
-            final Component badgeLabel) {
+                                        final Component badgeLabel) {
         CssLayout dashboardWrapper = new CssLayout(menuItemButton);
         dashboardWrapper.addStyleName("badgewrapper");
         dashboardWrapper.addStyleName(ValoTheme.MENU_ITEM);
@@ -229,7 +231,7 @@ public final class DashboardMenu extends CustomComponent {
     public void updateNotificationsCount(
             final NotificationsCountUpdatedEvent event) {
         int unreadNotificationsCount = DashboardUI.getDataProvider()
-                .getUnreadNotificationsCount();
+                                                  .getUnreadNotificationsCount();
         notificationsBadge.setValue(String.valueOf(unreadNotificationsCount));
         notificationsBadge.setVisible(unreadNotificationsCount > 0);
     }
@@ -256,14 +258,18 @@ public final class DashboardMenu extends CustomComponent {
             this.view = view;
             setPrimaryStyleName("valo-menu-item");
             setIcon(view.getIcon());
-            setCaption(view.getViewName().substring(0, 1).toUpperCase()
-                    + view.getViewName().substring(1));
+            setCaption(view.getViewName()
+                           .substring(0, 1)
+                           .toUpperCase()
+                    + view.getViewName()
+                          .substring(1));
             DashboardEventBus.register(this);
             addClickListener(new ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    UI.getCurrent().getNavigator()
-                            .navigateTo(view.getViewName());
+                    UI.getCurrent()
+                      .getNavigator()
+                      .navigateTo(view.getViewName());
                 }
             });
 

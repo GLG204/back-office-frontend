@@ -111,17 +111,23 @@ public final class TransactionsView extends VerticalLayout implements View {
         filter.addValueChangeListener(event -> {
 
             Collection<Transaction> transactions = DashboardUI.getDataProvider()
-                    .getRecentTransactions(200).stream().filter(transaction -> {
-                        filterValue = filter.getValue().trim().toLowerCase();
-                        return passesFilter(transaction.getCountry())
-                                || passesFilter(transaction.getTitle())
-                                || passesFilter(transaction.getCity());
-                    }).collect(Collectors.toList());
+                                                              .getRecentTransactions(200)
+                                                              .stream()
+                                                              .filter(transaction -> {
+                                                                  filterValue = filter.getValue()
+                                                                                      .trim()
+                                                                                      .toLowerCase();
+                                                                  return passesFilter(transaction.getCountry())
+                                                                          || passesFilter(transaction.getTitle())
+                                                                          || passesFilter(transaction.getCity());
+                                                              })
+                                                              .collect(Collectors.toList());
 
             ListDataProvider<Transaction> dataProvider = com.vaadin.data.provider.DataProvider
                     .ofCollection(transactions);
             dataProvider.addSortComparator(Comparator
-                    .comparing(Transaction::getTime).reversed()::compare);
+                    .comparing(Transaction::getTime)
+                    .reversed()::compare);
             grid.setDataProvider(dataProvider);
         });
 
@@ -132,7 +138,7 @@ public final class TransactionsView extends VerticalLayout implements View {
                 new ShortcutListener("Clear", KeyCode.ESCAPE, null) {
                     @Override
                     public void handleAction(final Object sender,
-                            final Object target) {
+                                             final Object target) {
                         filter.setValue("");
                     }
                 });
@@ -146,32 +152,40 @@ public final class TransactionsView extends VerticalLayout implements View {
 
         Column<Transaction, String> time = grid.addColumn(
                 transaction -> DATEFORMAT.format(transaction.getTime()));
-        time.setId("Time").setHidable(true);
+        time.setId("Time")
+            .setHidable(true);
 
         collapsibleColumns
-                .add(grid.addColumn(Transaction::getCountry).setId("Country"));
+                .add(grid.addColumn(Transaction::getCountry)
+                         .setId("Country"));
         collapsibleColumns
-                .add(grid.addColumn(Transaction::getCity).setId("City"));
+                .add(grid.addColumn(Transaction::getCity)
+                         .setId("City"));
         collapsibleColumns
-                .add(grid.addColumn(Transaction::getTheater).setId("Theater"));
+                .add(grid.addColumn(Transaction::getTheater)
+                         .setId("Theater"));
         collapsibleColumns
-                .add(grid.addColumn(Transaction::getRoom).setId("Room"));
+                .add(grid.addColumn(Transaction::getRoom)
+                         .setId("Room"));
         collapsibleColumns
-                .add(grid.addColumn(Transaction::getRoom).setId("Title"));
+                .add(grid.addColumn(Transaction::getRoom)
+                         .setId("Title"));
         collapsibleColumns
                 .add(grid.addColumn(Transaction::getSeats, new NumberRenderer())
-                        .setId("Seats"));
+                         .setId("Seats"));
         grid.addColumn(transaction -> "$"
-                + DECIMALFORMAT.format(transaction.getPrice())).setId("Price")
-                .setHidable(true);
+                + DECIMALFORMAT.format(transaction.getPrice()))
+            .setId("Price")
+            .setHidable(true);
 
         grid.setColumnReorderingAllowed(true);
 
         ListDataProvider<Transaction> dataProvider = com.vaadin.data.provider.DataProvider
                 .ofCollection(DashboardUI.getDataProvider()
-                        .getRecentTransactions(200));
+                                         .getRecentTransactions(200));
         dataProvider.addSortComparator(
-                Comparator.comparing(Transaction::getTime).reversed()::compare);
+                Comparator.comparing(Transaction::getTime)
+                          .reversed()::compare);
         grid.setDataProvider(dataProvider);
 
         // TODO either add these to grid or do it with style generators here
@@ -196,7 +210,7 @@ public final class TransactionsView extends VerticalLayout implements View {
         boolean result = true;
         for (Column<Transaction, ?> column : collapsibleColumns) {
             if (column.isHidden() == Page.getCurrent()
-                    .getBrowserWindowWidth() < 800) {
+                                         .getBrowserWindowWidth() < 800) {
                 result = false;
             }
         }
@@ -211,15 +225,17 @@ public final class TransactionsView extends VerticalLayout implements View {
         if (defaultColumnsVisible()) {
             for (Column<Transaction, ?> column : collapsibleColumns) {
                 column.setHidden(
-                        Page.getCurrent().getBrowserWindowWidth() < 800);
+                        Page.getCurrent()
+                            .getBrowserWindowWidth() < 800);
             }
         }
     }
 
     void createNewReportFromSelection() {
         if (!singleSelect.isEmpty()) {
-            UI.getCurrent().getNavigator()
-                    .navigateTo(DashboardViewType.REPORTS.getViewName());
+            UI.getCurrent()
+              .getNavigator()
+              .navigateTo(DashboardViewType.REPORTS.getViewName());
             DashboardEventBus.post(new TransactionReportEvent(
                     Collections.singletonList(singleSelect.getValue())));
         }
@@ -229,7 +245,9 @@ public final class TransactionsView extends VerticalLayout implements View {
         if (subject == null) {
             return false;
         }
-        return subject.trim().toLowerCase().contains(filterValue);
+        return subject.trim()
+                      .toLowerCase()
+                      .contains(filterValue);
     }
 
     @Override

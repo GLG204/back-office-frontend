@@ -10,22 +10,22 @@ import com.vaadin.demo.dashboard.domain.DashboardNotification;
 public abstract class DummyDataGenerator {
 
     static String randomFirstName() {
-        String[] names = { "Dave", "Mike", "Katherine", "Jonas", "Linus",
+        String[] names = {"Dave", "Mike", "Katherine", "Jonas", "Linus",
                 "Bob", "Anne", "Minna", "Elisa", "George", "Mathias", "Pekka",
                 "Fredrik", "Kate", "Teppo", "Kim", "Samatha", "Sam", "Linda",
-                "Jo", "Sarah", "Ray", "Michael", "Steve" };
+                "Jo", "Sarah", "Ray", "Michael", "Steve"};
         return names[(int) (Math.random() * names.length)];
     }
 
     static String randomLastName() {
-        String[] names = { "Smith", "Lehtinen", "Chandler", "Hewlett",
+        String[] names = {"Smith", "Lehtinen", "Chandler", "Hewlett",
                 "Packard", "Jobs", "Buffet", "Reagan", "Carthy", "Wu",
                 "Johnson", "Williams", "Jones", "Brown", "Davis", "Moore",
                 "Wilson", "Taylor", "Anderson", "Jackson", "White", "Harris",
                 "Martin", "King", "Lee", "Walker", "Wright", "Clark",
                 "Robinson", "Garcia", "Thomas", "Hall", "Lopez", "Scott",
                 "Adams", "Barker", "Morris", "Cook", "Rogers", "Rivera",
-                "Gray", "Price", "Perry", "Powell", "Russell", "Diaz" };
+                "Gray", "Price", "Perry", "Powell", "Russell", "Diaz"};
         return names[(int) (Math.random() * names.length)];
     }
 
@@ -47,10 +47,10 @@ public abstract class DummyDataGenerator {
     }
 
     public static String randomWord(int len, boolean capitalized) {
-        String[] part = { "ger", "ma", "isa", "app", "le", "ni", "ke", "mic",
+        String[] part = {"ger", "ma", "isa", "app", "le", "ni", "ke", "mic",
                 "ro", "soft", "wa", "re", "lo", "gi", "is", "acc", "el", "tes",
                 "la", "ko", "ni", "ka", "so", "ny", "mi", "nol", "ta", "pa",
-                "na", "so", "nic", "sa", "les", "for", "ce" };
+                "na", "so", "nic", "sa", "les", "for", "ce"};
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < len; i++) {
             String p = part[(int) (Math.random() * part.length)];
@@ -153,8 +153,8 @@ public abstract class DummyDataGenerator {
         return values;
     }
 
-    public static Color[] chartColors = new Color[] {
+    public static Color[] chartColors = new Color[]{
             new SolidColor("#3090F0"), new SolidColor("#18DDBB"),
             new SolidColor("#98DF58"), new SolidColor("#F9DD51"),
-            new SolidColor("#F09042"), new SolidColor("#EC6464") };
+            new SolidColor("#F09042"), new SolidColor("#EC6464")};
 }

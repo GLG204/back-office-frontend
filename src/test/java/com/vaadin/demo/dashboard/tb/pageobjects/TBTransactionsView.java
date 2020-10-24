@@ -23,8 +23,9 @@ public class TBTransactionsView extends TestBenchTestCase {
     }
 
     public void setFilter(String filter) {
-        $(TextFieldElement.class).state("inputPrompt", "Filter").first()
-                .setValue(filter);
+        $(TextFieldElement.class).state("inputPrompt", "Filter")
+                                 .first()
+                                 .setValue(filter);
     }
 
     public boolean listingContainsCity(String city) {
@@ -42,7 +43,8 @@ public class TBTransactionsView extends TestBenchTestCase {
     public List<String> selectFirstTransactions(int count) {
         List<String> result = new ArrayList<String>();
         for (int i = 0; i < count; i++) {
-            TestBenchElement cell = $(GridElement.class).first().getCell(i, 5);
+            TestBenchElement cell = $(GridElement.class).first()
+                                                        .getCell(i, 5);
             result.add(cell.getText());
             cell.click(10, 10, Keys.SHIFT);
         }
@@ -50,7 +52,9 @@ public class TBTransactionsView extends TestBenchTestCase {
     }
 
     public TBReportsView createReportFromSelection() {
-        $(TableElement.class).first().getCell(0, 0).contextClick();
+        $(TableElement.class).first()
+                             .getCell(0, 0)
+                             .contextClick();
         findElement(By.xpath("//div[text() = 'Create Report']")).click();
         return new TBReportsView(driver);
     }

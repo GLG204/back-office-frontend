@@ -22,7 +22,8 @@ public class TBTextBlock extends TestBenchTestCase {
     }
 
     public void setValue(String value) {
-        RichTextAreaElement rta = scope.$(RichTextAreaElement.class).first();
+        RichTextAreaElement rta = scope.$(RichTextAreaElement.class)
+                                       .first();
         WebElement iframe = rta.findElement(By.tagName("iframe"));
         iframe.click();
         iframe.sendKeys(Keys.BACK_SPACE);
@@ -31,11 +32,16 @@ public class TBTextBlock extends TestBenchTestCase {
     }
 
     public void save() {
-        scope.$(ButtonElement.class).caption("Save").first().click();
+        scope.$(ButtonElement.class)
+             .caption("Save")
+             .first()
+             .click();
     }
 
     public String getLabelContent() {
-        return scope.$(LabelElement.class).first().getText();
+        return scope.$(LabelElement.class)
+                    .first()
+                    .getText();
     }
 
 }

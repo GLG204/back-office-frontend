@@ -44,6 +44,7 @@ public class DashboardViewIT extends TestBenchTestCase {
 
     @After
     public void tearDown() {
-        loginView.getDriver().quit();
+        loginView.getDriver()
+                 .quit();
     }
 }

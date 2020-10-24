@@ -12,15 +12,21 @@ public class TBDashboardEdit extends TestBenchTestCase {
 
     public TBDashboardEdit(WebDriver driver) {
         setDriver(driver);
-        scope = $(WindowElement.class).caption("Edit Dashboard").first();
+        scope = $(WindowElement.class).caption("Edit Dashboard")
+                                      .first();
     }
 
     public void setDashboardTitle(String newName) {
-        scope.$(TextFieldElement.class).first().setValue(newName);
+        scope.$(TextFieldElement.class)
+             .first()
+             .setValue(newName);
     }
 
     public void save() {
-        scope.$(ButtonElement.class).caption("Save").first().click();
+        scope.$(ButtonElement.class)
+             .caption("Save")
+             .first()
+             .click();
     }
 
 }

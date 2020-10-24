@@ -81,10 +81,13 @@ public final class ScheduleView extends CssLayout implements View {
     private void injectMovieCoverStyles() {
         // Add all movie cover images as classes to CSSInject
         String styles = "";
-        for (Movie m : DashboardUI.getDataProvider().getMovies()) {
-            WebBrowser webBrowser = Page.getCurrent().getWebBrowser();
+        for (Movie m : DashboardUI.getDataProvider()
+                                  .getMovies()) {
+            WebBrowser webBrowser = Page.getCurrent()
+                                        .getWebBrowser();
 
-            String bg = "url(VAADIN/themes/" + UI.getCurrent().getTheme()
+            String bg = "url(VAADIN/themes/" + UI.getCurrent()
+                                                 .getTheme()
                     + "/img/event-title-bg.png), url(" + m.getThumbUrl() + ")";
 
             // IE8 doesn't support multiple background images
@@ -97,7 +100,9 @@ public final class ScheduleView extends CssLayout implements View {
                     + ";}";
         }
 
-        Page.getCurrent().getStyles().add(styles);
+        Page.getCurrent()
+            .getStyles()
+            .add(styles);
     }
 
     private Component buildCalendarView() {
@@ -133,8 +138,10 @@ public final class ScheduleView extends CssLayout implements View {
                     Date newFromTime = event.getNewStart();
 
                     // Update event dates
-                    long length = editableEvent.getEnd().getTime()
-                            - editableEvent.getStart().getTime();
+                    long length = editableEvent.getEnd()
+                                               .getTime()
+                            - editableEvent.getStart()
+                                           .getTime();
                     setDates(editableEvent, newFromTime,
                             new Date(newFromTime.getTime() + length));
                     setTrayVisible(true);
@@ -142,7 +149,7 @@ public final class ScheduleView extends CssLayout implements View {
             }
 
             protected void setDates(final MovieEvent event, final Date start,
-                    final Date end) {
+                                    final Date end) {
                 event.start = start;
                 event.end = end;
             }
@@ -171,7 +178,8 @@ public final class ScheduleView extends CssLayout implements View {
         catalog.setCaption("Catalog");
         catalog.addStyleName("catalog");
 
-        for (final Movie movie : DashboardUI.getDataProvider().getMovies()) {
+        for (final Movie movie : DashboardUI.getDataProvider()
+                                            .getMovies()) {
             VerticalLayout frame = new VerticalLayout();
             frame.addStyleName("frame");
             frame.setWidthUndefined();
@@ -252,7 +260,8 @@ public final class ScheduleView extends CssLayout implements View {
 
     @Subscribe
     public void browserWindowResized(final BrowserResizeEvent event) {
-        if (Page.getCurrent().getBrowserWindowWidth() < 800) {
+        if (Page.getCurrent()
+                .getBrowserWindowWidth() < 800) {
             calendar.setEndDate(calendar.getStartDate());
         }
     }
@@ -265,16 +274,17 @@ public final class ScheduleView extends CssLayout implements View {
 
         @Override
         public List<CalendarEvent> getEvents(final Date startDate,
-                final Date endDate) {
+                                             final Date endDate) {
             // Transactions are dynamically fetched from the backend service
             // when needed.
             Collection<Transaction> transactions = DashboardUI.getDataProvider()
-                    .getTransactionsBetween(startDate, endDate);
+                                                              .getTransactionsBetween(startDate, endDate);
             List<CalendarEvent> result = new ArrayList<CalendarEvent>();
             for (Transaction transaction : transactions) {
                 Movie movie = DashboardUI.getDataProvider()
-                        .getMovie(transaction.getMovieId());
-                Date end = new Date(transaction.getTime().getTime()
+                                         .getMovie(transaction.getMovieId());
+                Date end = new Date(transaction.getTime()
+                                               .getTime()
                         + movie.getDuration() * 60 * 1000);
                 result.add(new MovieEvent(transaction.getTime(), end, movie));
             }

@@ -42,7 +42,7 @@ public class TransactionsListing extends CssLayout {
                         + "<br>"
                         + "Revenue: $"
                         + new DecimalFormat("#.##").format(transaction
-                                .getPrice()), ContentMode.HTML);
+                        .getPrice()), ContentMode.HTML);
                 content.setSizeUndefined();
                 content.addStyleName("seats");
                 transationLayout.addComponent(content);

@@ -27,7 +27,7 @@ public class DashboardEventBus implements SubscriberExceptionHandler {
 
     @Override
     public final void handleException(final Throwable exception,
-            final SubscriberExceptionContext context) {
+                                      final SubscriberExceptionContext context) {
         exception.printStackTrace();
     }
 }

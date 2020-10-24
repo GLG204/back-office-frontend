@@ -41,8 +41,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-public final class DashboardView extends Panel implements View,
-        DashboardEditListener {
+public final class DashboardView extends Panel implements View, DashboardEditListener {
 
     public static final String EDIT_ID = "dashboard-edit";
     public static final String TITLE_ID = "dashboard-title";
@@ -75,12 +74,7 @@ public final class DashboardView extends Panel implements View,
 
         // All the open sub-windows should be closed whenever the root layout
         // gets clicked.
-        root.addLayoutClickListener(new LayoutClickListener() {
-            @Override
-            public void layoutClick(final LayoutClickEvent event) {
-                DashboardEventBus.post(new CloseOpenWindowsEvent());
-            }
-        });
+        root.addLayoutClickListener((LayoutClickListener) event -> DashboardEventBus.post(new CloseOpenWindowsEvent()));
     }
 
     private Component buildSparklines() {
@@ -130,12 +124,7 @@ public final class DashboardView extends Panel implements View,
 
     private NotificationsButton buildNotificationsButton() {
         NotificationsButton result = new NotificationsButton();
-        result.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                openNotificationsPopup(event);
-            }
-        });
+        result.addClickListener((ClickListener) this::openNotificationsPopup);
         return result;
     }
 
@@ -146,14 +135,9 @@ public final class DashboardView extends Panel implements View,
         result.addStyleName("icon-edit");
         result.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         result.setDescription("Edit Dashboard");
-        result.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                getUI().addWindow(
-                        new DashboardEdit(DashboardView.this, titleLabel
-                                .getValue()));
-            }
-        });
+        result.addClickListener((ClickListener) event -> getUI().addWindow(
+                new DashboardEdit(DashboardView.this, titleLabel
+                        .getValue())));
         return result;
     }
 
@@ -222,7 +206,8 @@ public final class DashboardView extends Panel implements View,
 
             @Override
             public void menuSelected(final MenuItem selectedItem) {
-                if (!slot.getStyleName().contains("max")) {
+                if (!slot.getStyleName()
+                         .contains("max")) {
                     selectedItem.setIcon(FontAwesome.COMPRESS);
                     toggleMaximized(slot, true);
                 } else {
@@ -234,19 +219,9 @@ public final class DashboardView extends Panel implements View,
         });
         max.setStyleName("icon-only");
         MenuItem root = tools.addItem("", FontAwesome.COG, null);
-        root.addItem("Configure", new Command() {
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                Notification.show("Not implemented in this demo");
-            }
-        });
+        root.addItem("Configure", (Command) selectedItem -> Notification.show("Not implemented in this demo"));
         root.addSeparator();
-        root.addItem("Close", new Command() {
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                Notification.show("Not implemented in this demo");
-            }
-        });
+        root.addItem("Close", (Command) selectedItem -> Notification.show("Not implemented in this demo"));
 
         toolbar.addComponents(caption, tools);
         toolbar.setExpandRatio(caption, 1);
@@ -266,7 +241,8 @@ public final class DashboardView extends Panel implements View,
         notificationsLayout.addComponent(title);
 
         Collection<DashboardNotification> notifications = DashboardUI
-                .getDataProvider().getNotifications();
+                .getDataProvider()
+                .getNotifications();
         DashboardEventBus.post(new NotificationsCountUpdatedEvent());
 
         for (DashboardNotification notification : notifications) {
@@ -296,12 +272,7 @@ public final class DashboardView extends Panel implements View,
         footer.setWidth("100%");
         footer.setSpacing(false);
         Button showAll = new Button("View All Notifications",
-                new ClickListener() {
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        Notification.show("Not implemented in this demo");
-                    }
-                });
+                (ClickListener) event1 -> Notification.show("Not implemented in this demo"));
         showAll.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
         showAll.addStyleName(ValoTheme.BUTTON_SMALL);
         footer.addComponent(showAll);
@@ -340,13 +311,12 @@ public final class DashboardView extends Panel implements View,
     }
 
     private void toggleMaximized(final Component panel, final boolean maximized) {
-        for (Iterator<Component> it = root.iterator(); it.hasNext();) {
-            it.next().setVisible(!maximized);
+        for (Component component : root) {
+            component.setVisible(!maximized);
         }
         dashboardPanels.setVisible(true);
 
-        for (Iterator<Component> it = dashboardPanels.iterator(); it.hasNext();) {
-            Component c = it.next();
+        for (Component c : dashboardPanels) {
             c.setVisible(!maximized);
         }
 
@@ -371,10 +341,9 @@ public final class DashboardView extends Panel implements View,
         }
 
         @Subscribe
-        public void updateNotificationsCount(
-                final NotificationsCountUpdatedEvent event) {
+        public void updateNotificationsCount(final NotificationsCountUpdatedEvent event) {
             setUnreadCount(DashboardUI.getDataProvider()
-                    .getUnreadNotificationsCount());
+                                      .getUnreadNotificationsCount());
         }
 
         public void setUnreadCount(final int count) {

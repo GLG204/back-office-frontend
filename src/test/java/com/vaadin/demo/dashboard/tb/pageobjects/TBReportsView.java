@@ -32,11 +32,14 @@ public class TBReportsView extends TestBenchTestCase {
     }
 
     public void createEmptyReport() {
-        $(ButtonElement.class).caption("Create New").first().click();
+        $(ButtonElement.class).caption("Create New")
+                              .first()
+                              .click();
     }
 
     public TBTextBlock addTextBlock() {
-        findElements(By.xpath("//div[text() = \"Text Block\"]")).get(0).click();
+        findElements(By.xpath("//div[text() = \"Text Block\"]")).get(0)
+                                                                .click();
         return new TBTextBlock(driver);
     }
 

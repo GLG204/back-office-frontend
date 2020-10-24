@@ -30,7 +30,7 @@ public class TBMainView extends TestBenchTestCase {
 
     public void logout() {
         MenuBarElement menuBar = getDashboardMenu().$(MenuBarElement.class)
-                .first();
+                                                   .first();
         // TODO: Get this working
         // menuBar.open("Sign Out");
 
@@ -47,7 +47,7 @@ public class TBMainView extends TestBenchTestCase {
 
     public TBProfileWindow openProfileWindow() {
         MenuBarElement menuBar = getDashboardMenu().$(MenuBarElement.class)
-                .first();
+                                                   .first();
         // TODO: Get this working
         // menuBar.open("Edit Profile");
 
@@ -66,13 +66,16 @@ public class TBMainView extends TestBenchTestCase {
 
     public String getUserFullName() {
         return getDashboardMenu().findElement(
-                By.className("v-menubar-menuitem-caption")).getText();
+                By.className("v-menubar-menuitem-caption"))
+                                 .getText();
     }
 
     public TBDashboardView openDashboardView() {
-    	ButtonElement dashboard = getDashboardMenu().$(ButtonElement.class).caption("Dashboard").first();
-    	
-    	// TODO: This hack shouldn't be needed
+        ButtonElement dashboard = getDashboardMenu().$(ButtonElement.class)
+                                                    .caption("Dashboard")
+                                                    .first();
+
+        // TODO: This hack shouldn't be needed
         new WebDriverWait(driver, 2).until(ExpectedConditions
                 .elementToBeClickable(dashboard));
 
@@ -84,7 +87,8 @@ public class TBMainView extends TestBenchTestCase {
         int result = 0;
         try {
             result = Integer.parseInt($(LabelElement.class).id(
-                    DashboardMenu.NOTIFICATIONS_BADGE_ID).getText());
+                    DashboardMenu.NOTIFICATIONS_BADGE_ID)
+                                                           .getText());
         } catch (NoSuchElementException e) {
             // Ignore
         }
@@ -92,9 +96,11 @@ public class TBMainView extends TestBenchTestCase {
     }
 
     public TBTransactionsView openTransactionsView() {
-    	ButtonElement transactions = getDashboardMenu().$(ButtonElement.class).caption("Transactions").first();
-    	
-    	// TODO: This hack shouldn't be needed
+        ButtonElement transactions = getDashboardMenu().$(ButtonElement.class)
+                                                       .caption("Transactions")
+                                                       .first();
+
+        // TODO: This hack shouldn't be needed
         new WebDriverWait(driver, 2).until(ExpectedConditions
                 .elementToBeClickable(transactions));
 
@@ -106,7 +112,8 @@ public class TBMainView extends TestBenchTestCase {
         int result = 0;
         try {
             result = Integer.parseInt($(LabelElement.class).id(
-                    DashboardMenu.REPORTS_BADGE_ID).getText());
+                    DashboardMenu.REPORTS_BADGE_ID)
+                                                           .getText());
         } catch (NoSuchElementException e) {
             // Ignore
         }
@@ -114,9 +121,11 @@ public class TBMainView extends TestBenchTestCase {
     }
 
     public TBReportsView openReportsView() {
-    	ButtonElement reports = getDashboardMenu().$(ButtonElement.class).caption("Reports").first();
-    	
-    	// TODO: This hack shouldn't be needed
+        ButtonElement reports = getDashboardMenu().$(ButtonElement.class)
+                                                  .caption("Reports")
+                                                  .first();
+
+        // TODO: This hack shouldn't be needed
         new WebDriverWait(driver, 2).until(ExpectedConditions
                 .elementToBeClickable(reports));
 

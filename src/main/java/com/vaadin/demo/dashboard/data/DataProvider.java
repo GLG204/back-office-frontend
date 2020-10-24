@@ -14,15 +14,13 @@ import com.vaadin.demo.dashboard.domain.User;
  */
 public interface DataProvider {
     /**
-     * @param count
-     *            Number of transactions to fetch.
+     * @param count Number of transactions to fetch.
      * @return A Collection of most recent transactions.
      */
     Collection<Transaction> getRecentTransactions(int count);
 
     /**
-     * @param id
-     *            Movie identifier.
+     * @param id Movie identifier.
      * @return A Collection of daily revenues for the movie.
      */
     Collection<MovieRevenue> getDailyRevenuesByMovie(long id);
@@ -60,8 +58,7 @@ public interface DataProvider {
     Collection<Movie> getMovies();
 
     /**
-     * @param movieId
-     *            Movie's identifier
+     * @param movieId Movie's identifier
      * @return A Movie instance for the given id.
      */
     Movie getMovie(long movieId);
@@ -70,7 +67,7 @@ public interface DataProvider {
      * @param startDate
      * @param endDate
      * @return A Collection of Transactions between the given start and end
-     *         dates.
+     * dates.
      */
     Collection<Transaction> getTransactionsBetween(Date startDate, Date endDate);
 }

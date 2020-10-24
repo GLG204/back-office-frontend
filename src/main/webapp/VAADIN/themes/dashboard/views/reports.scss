@@ -3,8 +3,8 @@
   .reports {
 
     .create .v-slot {
-      border: 1px solid rgba(122,122,122,.1);
-      background: rgba(122,122,122,.04);
+      border: 1px solid rgba(122, 122, 122, .1);
+      background: rgba(122, 122, 122, .04);
     }
 
     .draft-thumb {
@@ -21,7 +21,7 @@
       }
 
       .v-image {
-        @include box-shadow(0 2px 7px 1px rgba(0,0,0,.5));
+        @include box-shadow(0 2px 7px 1px rgba(0, 0, 0, .5));
 
         &:hover {
           outline: 2px solid #5198df;
@@ -91,7 +91,7 @@
 
     padding: 1.5cm;
 
-    @include box-shadow(0 2px 10px rgba(0,0,0,.3));
+    @include box-shadow(0 2px 10px rgba(0, 0, 0, .3));
 
     > .v-slot > .v-widget {
       @include animation(valo-animate-in-fade 500ms 10ms backwards, animate-in-scale-up 300ms 10ms backwards);
@@ -184,10 +184,10 @@
     font: inherit;
     font-size: 16px;
     line-height: 1;
-    text-shadow: 0 1px 0 rgba(0,0,0,.25);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
     text-align: center;
     cursor: default;
-    @include box-shadow(0 2px 4px rgba(0,0,0,.5));
+    @include box-shadow(0 2px 4px rgba(0, 0, 0, .5));
   }
 
   .delete-button:hover {

@@ -15,7 +15,7 @@ import com.vaadin.v7.ui.CustomField;
  * This component extends a CustomField and implements all the necessary
  * functionality so that it can be used just like any other Field.
  */
-@SuppressWarnings({ "serial", "unchecked" })
+@SuppressWarnings({"serial", "unchecked"})
 public final class OptionalSelect<T> extends CustomField<T> {
 
     private final CheckBox checkBox;
@@ -42,7 +42,8 @@ public final class OptionalSelect<T> extends CustomField<T> {
             @Override
             public void valueChange(
                     final com.vaadin.v7.data.Property.ValueChangeEvent event) {
-                setValue((T) event.getProperty().getValue());
+                setValue((T) event.getProperty()
+                                  .getValue());
             }
         });
         content.addComponent(comboBox);
@@ -54,9 +55,11 @@ public final class OptionalSelect<T> extends CustomField<T> {
             @Override
             public void valueChange(
                     final com.vaadin.v7.data.Property.ValueChangeEvent event) {
-                if ((Boolean) event.getProperty().getValue()) {
+                if ((Boolean) event.getProperty()
+                                   .getValue()) {
                     if (comboBox.getValue() == null) {
-                        Iterator<?> iterator = comboBox.getItemIds().iterator();
+                        Iterator<?> iterator = comboBox.getItemIds()
+                                                       .iterator();
                         if (iterator.hasNext()) {
                             comboBox.setValue(iterator.next());
                         }

@@ -28,6 +28,7 @@
       @include valo-gradient($color: $valo-menu-background-color);
       border-bottom-color: first-color(valo-border($color: $valo-menu-background-color));
     }
+
     .valo-menu .v-menubar-user-menu {
       color: inherit;
     }
@@ -116,6 +117,7 @@
           display: block;
           margin-left: 0 !important;
         }
+
         > .v-spacing {
           height: $v-layout-spacing-vertical;
         }
@@ -139,6 +141,7 @@
           display: inline-block;
           height: auto;
         }
+
         .v-formlayout-captioncell,
         .v-formlayout-errorcell {
           border-bottom: none;
@@ -147,12 +150,15 @@
           padding-top: $v-layout-spacing-vertical;
           text-align: left;
         }
+
         .v-caption-h4 {
           height: 0;
         }
+
         .v-label-h4 {
           position: static;
         }
+
         .v-horizontallayout {
           height: auto !important;
         }
@@ -214,7 +220,7 @@
   }
 
   .vaadin-chart {
-  	transform: translateZ(0);
+    transform: translateZ(0);
   }
 
   .viewheader {
@@ -277,9 +283,11 @@
         position: relative !important;
       }
     }
+
     .valo-menu-title {
       padding-top: 10px;
     }
+
     .view-content {
       border-top-left-radius: $v-border-radius;
       background-color: $v-app-background-color;
@@ -299,13 +307,16 @@
       height: 20px + $v-unit-size !important;
       padding-top: 20px;
     }
+
     .valo-menu-toggle,
     .user-menu {
       margin-top: 20px;
     }
+
     .valo-menuitems {
       top: 20px + $v-unit-size;
     }
+
     .view-content {
       border-radius: 0;
     }

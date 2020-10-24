@@ -43,6 +43,8 @@ public final class DashboardUI extends UI {
 
     @Override
     protected void init(final VaadinRequest request) {
+        RestClient restClient = new RestClient();
+
         setLocale(Locale.US);
 
         DashboardEventBus.register(this);
@@ -53,14 +55,9 @@ public final class DashboardUI extends UI {
 
         // Some views need to be aware of browser resize events so a
         // BrowserResizeEvent gets fired to the event bus on every occasion.
-        Page.getCurrent().addBrowserWindowResizeListener(
-                new BrowserWindowResizeListener() {
-                    @Override
-                    public void browserWindowResized(
-                            final BrowserWindowResizeEvent event) {
-                        DashboardEventBus.post(new BrowserResizeEvent());
-                    }
-                });
+        Page.getCurrent()
+            .addBrowserWindowResizeListener(
+                    (BrowserWindowResizeListener) event -> DashboardEventBus.post(new BrowserResizeEvent()));
     }
 
     /**
@@ -70,7 +67,7 @@ public final class DashboardUI extends UI {
      */
     private void updateContent() {
         User user = (User) VaadinSession.getCurrent()
-                .getAttribute(User.class.getName());
+                                        .getAttribute(User.class.getName());
         if (user != null && "admin".equals(user.getRole())) {
             // Authenticated user
             setContent(new MainView());
@@ -86,7 +83,8 @@ public final class DashboardUI extends UI {
     public void userLoginRequested(final UserLoginRequestedEvent event) {
         User user = getDataProvider().authenticate(event.getUserName(),
                 event.getPassword());
-        VaadinSession.getCurrent().setAttribute(User.class.getName(), user);
+        VaadinSession.getCurrent()
+                     .setAttribute(User.class.getName(), user);
         updateContent();
     }
 
@@ -95,8 +93,10 @@ public final class DashboardUI extends UI {
         // When the user logs out, current VaadinSession gets closed and the
         // page gets reloaded on the login screen. Do notice the this doesn't
         // invalidate the current HttpSession.
-        VaadinSession.getCurrent().close();
-        Page.getCurrent().reload();
+        VaadinSession.getCurrent()
+                     .close();
+        Page.getCurrent()
+            .reload();
     }
 
     @Subscribe

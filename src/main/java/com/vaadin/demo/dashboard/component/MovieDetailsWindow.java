@@ -30,7 +30,7 @@ public final class MovieDetailsWindow extends Window {
     private final Label synopsis = new Label();
 
     private MovieDetailsWindow(final Movie movie, final Date startTime,
-            final Date endTime) {
+                               final Date endTime) {
         addStyleName("moviedetailswindow");
         Responsive.makeResponsive(this);
 
@@ -79,7 +79,7 @@ public final class MovieDetailsWindow extends Window {
     }
 
     private Component buildMovieDetails(final Movie movie,
-            final Date startTime, final Date endTime) {
+                                        final Date startTime, final Date endTime) {
         HorizontalLayout details = new HorizontalLayout();
         details.setWidth(100.0f, Unit.PERCENTAGE);
         details.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
@@ -98,7 +98,7 @@ public final class MovieDetailsWindow extends Window {
     }
 
     private Component buildDetailsForm(final Movie movie, final Date startTime,
-            final Date endTime) {
+                                       final Date endTime) {
         FormLayout fields = new FormLayout();
         fields.setSpacing(false);
         fields.setMargin(false);
@@ -143,7 +143,8 @@ public final class MovieDetailsWindow extends Window {
             @Override
             public void buttonClick(final ClickEvent event) {
                 updateSynopsis(null, true);
-                event.getButton().setVisible(false);
+                event.getButton()
+                     .setVisible(false);
                 MovieDetailsWindow.this.focus();
             }
         });
@@ -152,7 +153,8 @@ public final class MovieDetailsWindow extends Window {
     }
 
     private void updateSynopsis(final Movie m, final boolean expand) {
-        String synopsisText = synopsis.getData().toString();
+        String synopsisText = synopsis.getData()
+                                      .toString();
         if (m != null) {
             synopsisText = m.getSynopsis();
             synopsis.setData(m.getSynopsis());
@@ -166,10 +168,11 @@ public final class MovieDetailsWindow extends Window {
     }
 
     public static void open(final Movie movie, final Date startTime,
-            final Date endTime) {
+                            final Date endTime) {
         DashboardEventBus.post(new CloseOpenWindowsEvent());
         Window w = new MovieDetailsWindow(movie, startTime, endTime);
-        UI.getCurrent().addWindow(w);
+        UI.getCurrent()
+          .addWindow(w);
         w.focus();
     }
 }

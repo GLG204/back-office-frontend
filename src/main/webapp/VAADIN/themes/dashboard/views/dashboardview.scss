@@ -107,29 +107,29 @@
         min-height: 220px;
       }
 
-  	  &[width-range~="0-700px"] {
-  	    .dashboard-panel-slot {
-  	      width: 100% !important;
-  	    }
-  	  }
+      &[width-range~="0-700px"] {
+        .dashboard-panel-slot {
+          width: 100% !important;
+        }
+      }
 
-  	  &[width-range~="701px-"] {
-  	    .dashboard-panel-slot {
-  	      width: 50% !important;
-  	    }
-  	  }
+      &[width-range~="701px-"] {
+        .dashboard-panel-slot {
+          width: 50% !important;
+        }
+      }
 
       &[height-range~="0-440px"] {
-  	    .dashboard-panel-slot {
-  	      height: 100%;
-  	    }
-  	  }
+        .dashboard-panel-slot {
+          height: 100%;
+        }
+      }
 
-  	  &[height-range~="441px-"] {
-  	    .dashboard-panel-slot {
-  	      height: 50%;
-  	    }
-  	  }
+      &[height-range~="441px-"] {
+        .dashboard-panel-slot {
+          height: 50%;
+        }
+      }
 
       .dashboard-panel-slot.max {
         width: 100% !important;
@@ -183,7 +183,7 @@
     @include transform-origin(296px - (2 * $v-unit-size - round($v-unit-size / 3)) -7px);
 
     &.v-window-animate-in {
-      @include animation(animate-in-scale-up 260ms cubic-bezier(.68,.37,.51,1.37));
+      @include animation(animate-in-scale-up 260ms cubic-bezier(.68, .37, .51, 1.37));
     }
 
     &:before,

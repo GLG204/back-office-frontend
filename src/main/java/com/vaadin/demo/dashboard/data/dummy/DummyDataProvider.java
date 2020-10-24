@@ -105,13 +105,14 @@ public class DummyDataProvider implements DataProvider {
         File cache;
         VaadinRequest vaadinRequest = CurrentInstance.get(VaadinRequest.class);
 
-        File baseDirectory = vaadinRequest.getService().getBaseDirectory();
+        File baseDirectory = vaadinRequest.getService()
+                                          .getBaseDirectory();
         cache = new File(baseDirectory + "/movies.txt");
 
         try {
             if (cache.exists()
                     && System.currentTimeMillis() < cache.lastModified()
-                            + (1000 * 60 * 60 * 24)) {
+                    + (1000 * 60 * 60 * 24)) {
                 // Use cache if it's under 24h old
                 json = readJsonFromFile(cache);
             } else {
@@ -142,29 +143,38 @@ public class DummyDataProvider implements DataProvider {
 
             moviesJson = json.getAsJsonArray("movies");
             for (int i = 0; i < moviesJson.size(); i++) {
-                JsonObject movieJson = moviesJson.get(i).getAsJsonObject();
-                JsonObject posters = movieJson.get("posters").getAsJsonObject();
-                if (!posters.get("profile").getAsString()
-                        .contains("poster_default")) {
+                JsonObject movieJson = moviesJson.get(i)
+                                                 .getAsJsonObject();
+                JsonObject posters = movieJson.get("posters")
+                                              .getAsJsonObject();
+                if (!posters.get("profile")
+                            .getAsString()
+                            .contains("poster_default")) {
                     Movie movie = new Movie();
                     movie.setId(i);
-                    movie.setTitle(movieJson.get("title").getAsString());
+                    movie.setTitle(movieJson.get("title")
+                                            .getAsString());
                     try {
-                        movie.setDuration(movieJson.get("runtime").getAsInt());
+                        movie.setDuration(movieJson.get("runtime")
+                                                   .getAsInt());
                     } catch (Exception e) {
                         // No need to handle this exception
                     }
-                    movie.setSynopsis(movieJson.get("synopsis").getAsString());
-                    movie.setThumbUrl(posters.get("profile").getAsString()
-                            .replace("_tmb", "_320"));
-                    movie.setPosterUrl(posters.get("detailed").getAsString()
-                            .replace("_tmb", "_640"));
+                    movie.setSynopsis(movieJson.get("synopsis")
+                                               .getAsString());
+                    movie.setThumbUrl(posters.get("profile")
+                                             .getAsString()
+                                             .replace("_tmb", "_320"));
+                    movie.setPosterUrl(posters.get("detailed")
+                                              .getAsString()
+                                              .replace("_tmb", "_640"));
 
                     try {
                         JsonObject releaseDates = movieJson
-                                .get("release_dates").getAsJsonObject();
+                                .get("release_dates")
+                                .getAsJsonObject();
                         String datestr = releaseDates.get("theater")
-                                .getAsString();
+                                                     .getAsString();
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                         movie.setReleaseDate(df.parse(datestr));
                     } catch (Exception e) {
@@ -173,8 +183,9 @@ public class DummyDataProvider implements DataProvider {
 
                     try {
                         movie.setScore(movieJson.get("ratings")
-                                .getAsJsonObject().get("critics_score")
-                                .getAsInt());
+                                                .getAsJsonObject()
+                                                .get("critics_score")
+                                                .getAsInt());
                     } catch (Exception e) {
                         // No need to handle this exception
                     }
@@ -229,6 +240,7 @@ public class DummyDataProvider implements DataProvider {
 
     static List<String> theaters = new ArrayList<String>() {
         private static final long serialVersionUID = 1L;
+
         {
             add("Threater 1");
             add("Threater 2");
@@ -241,6 +253,7 @@ public class DummyDataProvider implements DataProvider {
 
     static List<String> rooms = new ArrayList<String>() {
         private static final long serialVersionUID = 1L;
+
         {
             add("Room 1");
             add("Room 2");
@@ -280,7 +293,8 @@ public class DummyDataProvider implements DataProvider {
          * name) and last (country name) values, and build a Map from that.
          */
         Multimap<String, String> countryToCities = MultimapBuilder.hashKeys()
-                .arrayListValues().build();
+                                                                  .arrayListValues()
+                                                                  .build();
         for (String line : list.split("\n")) {
             String[] tabs = line.split("\t");
             String city = tabs[1];
@@ -289,7 +303,8 @@ public class DummyDataProvider implements DataProvider {
             if (!countryToCities.containsKey(country)) {
                 countryToCities.putAll(country, new ArrayList<String>());
             }
-            countryToCities.get(country).add(city);
+            countryToCities.get(country)
+                           .add(city);
         }
 
         return countryToCities;
@@ -303,7 +318,8 @@ public class DummyDataProvider implements DataProvider {
      */
     private Multimap<Long, Transaction> generateTransactionsData() {
         Multimap<Long, Transaction> result = MultimapBuilder.hashKeys()
-                .arrayListValues().build();
+                                                            .arrayListValues()
+                                                            .build();
 
         for (Movie movie : movies) {
             result.putAll(movie.getId(), new ArrayList<Transaction>());
@@ -326,7 +342,8 @@ public class DummyDataProvider implements DataProvider {
                     transaction.setTitle(movie.getTitle());
 
                     // Country
-                    Object[] array = countryToCities.keySet().toArray();
+                    Object[] array = countryToCities.keySet()
+                                                    .toArray();
                     int i = (int) (Math.random() * (array.length - 1));
                     String country = array[i].toString();
                     transaction.setCountry(country);
@@ -335,7 +352,8 @@ public class DummyDataProvider implements DataProvider {
 
                     // City
                     Collection<String> cities = countryToCities.get(country);
-                    transaction.setCity(cities.iterator().next());
+                    transaction.setCity(cities.iterator()
+                                              .next());
 
                     // Theater
                     String theater = theaters
@@ -363,7 +381,8 @@ public class DummyDataProvider implements DataProvider {
                     double price = seats * (2 + (rand.nextDouble() * 8));
                     transaction.setPrice(price);
 
-                    result.get(movie.getId()).add(transaction);
+                    result.get(movie.getId())
+                          .add(transaction);
                 }
 
                 cal.add(Calendar.SECOND, rand.nextInt(500000) + 5000);
@@ -376,7 +395,8 @@ public class DummyDataProvider implements DataProvider {
 
     public static Movie getMovieForTitle(String title) {
         for (Movie movie : movies) {
-            if (movie.getTitle().equals(title)) {
+            if (movie.getTitle()
+                     .equals(title)) {
                 return movie;
             }
         }
@@ -389,9 +409,12 @@ public class DummyDataProvider implements DataProvider {
         user.setFirstName(DummyDataGenerator.randomFirstName());
         user.setLastName(DummyDataGenerator.randomLastName());
         user.setRole("admin");
-        String email = user.getFirstName().toLowerCase() + "."
-                + user.getLastName().toLowerCase() + "@"
-                + DummyDataGenerator.randomCompanyName().toLowerCase() + ".com";
+        String email = user.getFirstName()
+                           .toLowerCase() + "."
+                + user.getLastName()
+                      .toLowerCase() + "@"
+                + DummyDataGenerator.randomCompanyName()
+                                    .toLowerCase() + ".com";
         user.setEmail(email.replaceAll(" ", ""));
         user.setLocation(DummyDataGenerator.randomWord(5, true));
         user.setBio("Quis aute iure reprehenderit in voluptate velit esse."
@@ -406,16 +429,19 @@ public class DummyDataProvider implements DataProvider {
         Collections.sort(orderedTransactions, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction o1, Transaction o2) {
-                return o2.getTime().compareTo(o1.getTime());
+                return o2.getTime()
+                         .compareTo(o1.getTime());
             }
         });
         return orderedTransactions.subList(0,
-                Math.min(count, transactions.values().size() - 1));
+                Math.min(count, transactions.values()
+                                            .size() - 1));
     }
 
     private Multimap<Long, MovieRevenue> countRevenues() {
         Multimap<Long, MovieRevenue> result = MultimapBuilder.hashKeys()
-                .arrayListValues().build();
+                                                             .arrayListValues()
+                                                             .build();
         for (Movie movie : movies) {
             result.putAll(movie.getId(), countMovieRevenue(movie));
         }
@@ -487,7 +513,8 @@ public class DummyDataProvider implements DataProvider {
                 return !input.isRead();
             }
         };
-        return Collections2.filter(notifications, unreadPredicate).size();
+        return Collections2.filter(notifications, unreadPredicate)
+                           .size();
     }
 
     @Override
@@ -519,13 +546,15 @@ public class DummyDataProvider implements DataProvider {
 
     @Override
     public Collection<Transaction> getTransactionsBetween(final Date startDate,
-            final Date endDate) {
+                                                          final Date endDate) {
         return Collections2.filter(transactions.values(),
                 new Predicate<Transaction>() {
                     @Override
                     public boolean apply(Transaction input) {
-                        return !input.getTime().before(startDate)
-                                && !input.getTime().after(endDate);
+                        return !input.getTime()
+                                     .before(startDate)
+                                && !input.getTime()
+                                         .after(endDate);
                     }
                 });
     }

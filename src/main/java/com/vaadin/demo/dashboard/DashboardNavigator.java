@@ -27,7 +27,9 @@ public class DashboardNavigator extends Navigator {
     public DashboardNavigator(final ComponentContainer container) {
         super(UI.getCurrent(), container);
 
-        String host = getUI().getPage().getLocation().getHost();
+        String host = getUI().getPage()
+                             .getLocation()
+                             .getHost();
         if (TRACKER_ID != null && host.endsWith("demo.vaadin.com")) {
             initGATracker(TRACKER_ID);
         }
@@ -84,7 +86,8 @@ public class DashboardNavigator extends Navigator {
                 @Override
                 public View getView(final String viewName) {
                     View result = null;
-                    if (viewType.getViewName().equals(viewName)) {
+                    if (viewType.getViewName()
+                                .equals(viewName)) {
                         if (viewType.isStateful()) {
                             // Stateful views get lazily instantiated
                             if (cachedInstance == null) {

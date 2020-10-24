@@ -73,7 +73,7 @@ public class ProfilePreferencesWindow extends Window {
     private TextArea bioField;
 
     private ProfilePreferencesWindow(final User user,
-            final boolean preferencesTabOpen) {
+                                     final boolean preferencesTabOpen) {
         addStyleName("profile-window");
         setId(ID);
         Responsive.makeResponsive(this);
@@ -260,10 +260,11 @@ public class ProfilePreferencesWindow extends Window {
     }
 
     public static void open(final User user,
-            final boolean preferencesTabActive) {
+                            final boolean preferencesTabActive) {
         DashboardEventBus.post(new CloseOpenWindowsEvent());
         Window w = new ProfilePreferencesWindow(user, preferencesTabActive);
-        UI.getCurrent().addWindow(w);
+        UI.getCurrent()
+          .addWindow(w);
         w.focus();
     }
 }

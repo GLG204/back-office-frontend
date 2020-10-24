@@ -22,8 +22,8 @@ public enum DashboardViewType {
     private final boolean stateful;
 
     private DashboardViewType(final String viewName,
-            final Class<? extends View> viewClass, final Resource icon,
-            final boolean stateful) {
+                              final Class<? extends View> viewClass, final Resource icon,
+                              final boolean stateful) {
         this.viewName = viewName;
         this.viewClass = viewClass;
         this.icon = icon;
@@ -49,7 +49,8 @@ public enum DashboardViewType {
     public static DashboardViewType getByViewName(final String viewName) {
         DashboardViewType result = null;
         for (DashboardViewType viewType : values()) {
-            if (viewType.getViewName().equals(viewName)) {
+            if (viewType.getViewName()
+                        .equals(viewName)) {
                 result = viewType;
                 break;
             }

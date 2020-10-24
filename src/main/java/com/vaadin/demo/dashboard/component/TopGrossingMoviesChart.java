@@ -19,15 +19,21 @@ public class TopGrossingMoviesChart extends Chart {
     public TopGrossingMoviesChart() {
         setCaption("Top Grossing Movies");
         getConfiguration().setTitle("");
-        getConfiguration().getChart().setType(ChartType.BAR);
-        getConfiguration().getChart().setAnimation(false);
-        getConfiguration().getxAxis().getLabels().setEnabled(false);
-        getConfiguration().getxAxis().setTickWidth(0);
-        getConfiguration().getyAxis().setTitle("");
+        getConfiguration().getChart()
+                          .setType(ChartType.BAR);
+        getConfiguration().getChart()
+                          .setAnimation(false);
+        getConfiguration().getxAxis()
+                          .getLabels()
+                          .setEnabled(false);
+        getConfiguration().getxAxis()
+                          .setTickWidth(0);
+        getConfiguration().getyAxis()
+                          .setTitle("");
         setSizeFull();
 
         List<Movie> movies = new ArrayList<Movie>(DashboardUI.getDataProvider()
-                .getMovies());
+                                                             .getMovies());
 
         List<Series> series = new ArrayList<Series>();
         for (int i = 0; i < 6; i++) {

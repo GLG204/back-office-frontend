@@ -17,7 +17,9 @@ public class TBConfirmDialog extends TestBenchTestCase {
     }
 
     public void discard() {
-        $(ButtonElement.class).caption("Discard Changes").first().click();
+        $(ButtonElement.class).caption("Discard Changes")
+                              .first()
+                              .click();
     }
 
 }
