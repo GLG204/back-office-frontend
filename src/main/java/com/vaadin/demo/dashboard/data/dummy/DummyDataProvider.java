@@ -58,7 +58,7 @@ public class DummyDataProvider implements DataProvider {
     private static Multimap<Long, Transaction> transactions;
     private static Multimap<Long, MovieRevenue> revenue;
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
 
     private final Collection<DashboardNotification> notifications = DummyDataGenerator
             .randomNotifications();
@@ -125,12 +125,10 @@ public class DummyDataProvider implements DataProvider {
                         fileWriter.write(json.toString());
                         fileWriter.close();
                     } catch (Exception e) {
-                        json = readJsonFromFile(new File(baseDirectory
-                                + "/movies-fallback.txt"));
+                        json = readJsonFromFile(new File(baseDirectory + "/asterisk-fallback.txt"));
                     }
                 } else {
-                    json = readJsonFromFile(new File(baseDirectory
-                            + "/movies-fallback.txt"));
+                    json = readJsonFromFile(new File(baseDirectory + "/asterisk-fallback.txt"));
                 }
             }
         } catch (Exception e) {

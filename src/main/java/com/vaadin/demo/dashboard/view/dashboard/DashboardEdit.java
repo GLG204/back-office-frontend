@@ -21,7 +21,8 @@ public class DashboardEdit extends Window {
     private final TextField nameField = new TextField("Name");
     private final DashboardEditListener listener;
 
-    public DashboardEdit(final DashboardEditListener listener, final String currentName) {
+    public DashboardEdit(final DashboardEditListener listener,
+                         final String currentName) {
         this.listener = listener;
         setCaption("Edit Dashboard");
         setModal(true);
@@ -53,14 +54,22 @@ public class DashboardEdit extends Window {
         footer.setWidth(100.0f, Unit.PERCENTAGE);
 
         Button cancel = new Button("Cancel");
-        cancel.addClickListener((ClickListener) event -> close());
+        cancel.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                close();
+            }
+        });
         cancel.setClickShortcut(KeyCode.ESCAPE, null);
 
         Button save = new Button("Save");
         save.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        save.addClickListener((ClickListener) event -> {
-            listener.dashboardNameEdited(nameField.getValue());
-            close();
+        save.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                listener.dashboardNameEdited(nameField.getValue());
+                close();
+            }
         });
         save.setClickShortcut(KeyCode.ENTER, null);
 

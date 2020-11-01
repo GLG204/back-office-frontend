@@ -120,7 +120,7 @@ public class ProfilePreferencesWindow extends Window {
         root.setMargin(true);
         root.setSizeFull();
 
-        Label message = new Label("Not implemented in this demo");
+        Label message = new Label("under development");
         message.setSizeUndefined();
         message.addStyleName(ValoTheme.LABEL_LIGHT);
         root.addComponent(message);
@@ -148,7 +148,7 @@ public class ProfilePreferencesWindow extends Window {
         Button upload = new Button("Change…", new ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                Notification.show("Not implemented in this demo");
+                Notification.show("under development");
             }
         });
         upload.addStyleName(ValoTheme.BUTTON_TINY);

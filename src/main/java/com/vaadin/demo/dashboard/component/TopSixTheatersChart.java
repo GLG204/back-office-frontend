@@ -19,7 +19,7 @@ public class TopSixTheatersChart extends Chart {
     public TopSixTheatersChart() {
         super(ChartType.PIE);
 
-        setCaption("Popular Movies");
+        setCaption("Most SIP instance Traffic");
         getConfiguration().setTitle("");
         getConfiguration().getChart()
                           .setType(ChartType.PIE);

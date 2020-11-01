@@ -39,7 +39,7 @@ public class SalesView extends VerticalLayout implements View {
 
     public SalesView() {
         setSizeFull();
-        addStyleName("sales");
+        addStyleName("SIP");
         setMargin(false);
         setSpacing(false);
 
@@ -51,7 +51,7 @@ public class SalesView extends VerticalLayout implements View {
 
         initMovieSelect();
         // Add first 4 by default
-        List<Movie> subList = new ArrayList<Movie>(
+        List<Movie> subList = new ArrayList<>(
                 DashboardUI.getDataProvider()
                            .getMovies()).subList(0, 4);
         for (Movie m : subList) {
@@ -70,7 +70,7 @@ public class SalesView extends VerticalLayout implements View {
         header.addStyleName("viewheader");
         Responsive.makeResponsive(header);
 
-        Label titleLabel = new Label("Revenue by Movie");
+        Label titleLabel = new Label("SIP Traffic");
         titleLabel.setSizeUndefined();
         titleLabel.addStyleName(ValoTheme.LABEL_H1);
         titleLabel.addStyleName(ValoTheme.LABEL_NO_MARGIN);

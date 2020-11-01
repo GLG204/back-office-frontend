@@ -28,7 +28,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @Theme("dashboard")
 @Widgetset("com.vaadin.demo.dashboard.DashboardWidgetSet")
-@Title("QuickTickets Dashboard")
+@Title("Backoffice Dashboard")
 @SuppressWarnings("serial")
 public final class DashboardUI extends UI {
 
@@ -43,8 +43,6 @@ public final class DashboardUI extends UI {
 
     @Override
     protected void init(final VaadinRequest request) {
-        RestClient restClient = new RestClient();
-
         setLocale(Locale.US);
 
         DashboardEventBus.register(this);
@@ -57,7 +55,13 @@ public final class DashboardUI extends UI {
         // BrowserResizeEvent gets fired to the event bus on every occasion.
         Page.getCurrent()
             .addBrowserWindowResizeListener(
-                    (BrowserWindowResizeListener) event -> DashboardEventBus.post(new BrowserResizeEvent()));
+                    new BrowserWindowResizeListener() {
+                        @Override
+                        public void browserWindowResized(
+                                final BrowserWindowResizeEvent event) {
+                            DashboardEventBus.post(new BrowserResizeEvent());
+                        }
+                    });
     }
 
     /**

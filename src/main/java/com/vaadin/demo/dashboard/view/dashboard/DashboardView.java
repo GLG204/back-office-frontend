@@ -41,7 +41,8 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-public final class DashboardView extends Panel implements View, DashboardEditListener {
+public final class DashboardView extends Panel implements View,
+        DashboardEditListener {
 
     public static final String EDIT_ID = "dashboard-edit";
     public static final String TITLE_ID = "dashboard-title";
@@ -74,7 +75,12 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
 
         // All the open sub-windows should be closed whenever the root layout
         // gets clicked.
-        root.addLayoutClickListener((LayoutClickListener) event -> DashboardEventBus.post(new CloseOpenWindowsEvent()));
+        root.addLayoutClickListener(new LayoutClickListener() {
+            @Override
+            public void layoutClick(final LayoutClickEvent event) {
+                DashboardEventBus.post(new CloseOpenWindowsEvent());
+            }
+        });
     }
 
     private Component buildSparklines() {
@@ -124,7 +130,12 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
 
     private NotificationsButton buildNotificationsButton() {
         NotificationsButton result = new NotificationsButton();
-        result.addClickListener((ClickListener) this::openNotificationsPopup);
+        result.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                openNotificationsPopup(event);
+            }
+        });
         return result;
     }
 
@@ -135,9 +146,14 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
         result.addStyleName("icon-edit");
         result.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         result.setDescription("Edit Dashboard");
-        result.addClickListener((ClickListener) event -> getUI().addWindow(
-                new DashboardEdit(DashboardView.this, titleLabel
-                        .getValue())));
+        result.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                getUI().addWindow(
+                        new DashboardEdit(DashboardView.this, titleLabel
+                                .getValue()));
+            }
+        });
         return result;
     }
 
@@ -162,7 +178,7 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
 
     private Component buildNotes() {
         TextArea notes = new TextArea("Notes");
-        notes.setValue("Remember to:\n· Zoom in and out in the Sales view\n· Filter the transactions and drag a set of them to the Reports tab\n· Create a new report\n· Change the schedule of the movie theater");
+        notes.setValue("Remember to:\n· Redeploy Asterisk for incoming calls\n· Filter the transactions and drag a set of them to the Reports tab\n· Create a new report\n· Change the schedule of deployment");
         notes.setSizeFull();
         notes.addStyleName(ValoTheme.TEXTAREA_BORDERLESS);
         Component panel = createContentWrapper(notes);
@@ -219,9 +235,19 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
         });
         max.setStyleName("icon-only");
         MenuItem root = tools.addItem("", FontAwesome.COG, null);
-        root.addItem("Configure", (Command) selectedItem -> Notification.show("Not implemented in this demo"));
+        root.addItem("Configure", new Command() {
+            @Override
+            public void menuSelected(final MenuItem selectedItem) {
+                Notification.show("under development");
+            }
+        });
         root.addSeparator();
-        root.addItem("Close", (Command) selectedItem -> Notification.show("Not implemented in this demo"));
+        root.addItem("Close", new Command() {
+            @Override
+            public void menuSelected(final MenuItem selectedItem) {
+                Notification.show("under development");
+            }
+        });
 
         toolbar.addComponents(caption, tools);
         toolbar.setExpandRatio(caption, 1);
@@ -272,7 +298,12 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
         footer.setWidth("100%");
         footer.setSpacing(false);
         Button showAll = new Button("View All Notifications",
-                (ClickListener) event1 -> Notification.show("Not implemented in this demo"));
+                new ClickListener() {
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        Notification.show("under development");
+                    }
+                });
         showAll.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
         showAll.addStyleName(ValoTheme.BUTTON_SMALL);
         footer.addComponent(showAll);
@@ -311,12 +342,14 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
     }
 
     private void toggleMaximized(final Component panel, final boolean maximized) {
-        for (Component component : root) {
-            component.setVisible(!maximized);
+        for (Iterator<Component> it = root.iterator(); it.hasNext(); ) {
+            it.next()
+              .setVisible(!maximized);
         }
         dashboardPanels.setVisible(true);
 
-        for (Component c : dashboardPanels) {
+        for (Iterator<Component> it = dashboardPanels.iterator(); it.hasNext(); ) {
+            Component c = it.next();
             c.setVisible(!maximized);
         }
 
@@ -341,7 +374,8 @@ public final class DashboardView extends Panel implements View, DashboardEditLis
         }
 
         @Subscribe
-        public void updateNotificationsCount(final NotificationsCountUpdatedEvent event) {
+        public void updateNotificationsCount(
+                final NotificationsCountUpdatedEvent event) {
             setUnreadCount(DashboardUI.getDataProvider()
                                       .getUnreadNotificationsCount());
         }

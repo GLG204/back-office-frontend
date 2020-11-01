@@ -17,7 +17,8 @@ import com.vaadin.client.ui.window.WindowConnector;
 import com.vaadin.server.widgetsetutils.ConnectorBundleLoaderFactory;
 import com.vaadin.shared.ui.Connect.LoadStyle;
 
-public final class OptimizedConnectorBundleLoaderFactory extends ConnectorBundleLoaderFactory {
+public final class OptimizedConnectorBundleLoaderFactory extends
+        ConnectorBundleLoaderFactory {
     private final Set<String> eagerConnectors = new HashSet<String>();
 
     {

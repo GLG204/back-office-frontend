@@ -108,7 +108,7 @@ public final class ReportsView extends TabSheet implements View, CloseHandler,
         delete.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
-                Notification.show("Not implemented in this demo");
+                Notification.show("under development");
             }
         });
         draftThumb.addComponent(delete);

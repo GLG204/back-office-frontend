@@ -17,7 +17,7 @@ import com.vaadin.demo.dashboard.domain.Movie;
 public class TopGrossingMoviesChart extends Chart {
 
     public TopGrossingMoviesChart() {
-        setCaption("Top Grossing Movies");
+        setCaption("Admin Task Fallback");
         getConfiguration().setTitle("");
         getConfiguration().getChart()
                           .setType(ChartType.BAR);

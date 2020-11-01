@@ -24,7 +24,7 @@ public final class TopTenMoviesTable extends Table {
             if (property != null && property.getValue() != null) {
                 Double r = (Double) property.getValue();
                 String ret = new DecimalFormat("#.##").format(r);
-                result = "$" + ret;
+                result = "" + ret;
             } else {
                 result = "";
             }
@@ -33,7 +33,7 @@ public final class TopTenMoviesTable extends Table {
     }
 
     public TopTenMoviesTable() {
-        setCaption("Top 10 Titles by Revenue");
+        setCaption("Top 10 Critical Task");
 
         addStyleName(ValoTheme.TABLE_BORDERLESS);
         addStyleName(ValoTheme.TABLE_NO_STRIPES);
@@ -48,13 +48,8 @@ public final class TopTenMoviesTable extends Table {
         List<MovieRevenue> movieRevenues = new ArrayList<MovieRevenue>(
                 DashboardUI.getDataProvider()
                            .getTotalMovieRevenues());
-        Collections.sort(movieRevenues, new Comparator<MovieRevenue>() {
-            @Override
-            public int compare(final MovieRevenue o1, final MovieRevenue o2) {
-                return o2.getRevenue()
-                         .compareTo(o1.getRevenue());
-            }
-        });
+        movieRevenues.sort((o1, o2) -> o2.getRevenue()
+                                         .compareTo(o1.getRevenue()));
 
         setContainerDataSource(new BeanItemContainer<MovieRevenue>(
                 MovieRevenue.class, movieRevenues.subList(0, 10)));

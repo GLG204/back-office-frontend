@@ -175,7 +175,7 @@ public final class ScheduleView extends CssLayout implements View {
 
     private Component buildCatalogView() {
         CssLayout catalog = new CssLayout();
-        catalog.setCaption("Catalog");
+        catalog.setCaption("Task");
         catalog.addStyleName("catalog");
 
         for (final Movie movie : DashboardUI.getDataProvider()
