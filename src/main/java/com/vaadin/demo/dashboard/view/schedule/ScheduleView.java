@@ -1,10 +1,5 @@
 package com.vaadin.demo.dashboard.view.schedule;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.demo.dashboard.DashboardUI;
 import com.vaadin.demo.dashboard.component.MovieDetailsWindow;
@@ -12,7 +7,6 @@ import com.vaadin.demo.dashboard.domain.Movie;
 import com.vaadin.demo.dashboard.domain.Transaction;
 import com.vaadin.demo.dashboard.event.DashboardEvent.BrowserResizeEvent;
 import com.vaadin.demo.dashboard.event.DashboardEventBus;
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -20,22 +14,11 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.ui.Calendar;
-import com.vaadin.v7.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.v7.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
 import com.vaadin.v7.ui.components.calendar.CalendarComponentEvents.EventResize;
 import com.vaadin.v7.ui.components.calendar.CalendarComponentEvents.MoveEvent;
@@ -44,11 +27,16 @@ import com.vaadin.v7.ui.components.calendar.event.CalendarEventProvider;
 import com.vaadin.v7.ui.components.calendar.handler.BasicEventMoveHandler;
 import com.vaadin.v7.ui.components.calendar.handler.BasicEventResizeHandler;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 @SuppressWarnings("serial")
 public final class ScheduleView extends CssLayout implements View {
 
-    private Calendar calendar;
     private final Component tray;
+    private Calendar calendar;
 
     public ScheduleView() {
         setSizeFull();
@@ -114,14 +102,11 @@ public final class ScheduleView extends CssLayout implements View {
         calendar.setWidth(100.0f, Unit.PERCENTAGE);
         calendar.setHeight(1000.0f, Unit.PIXELS);
 
-        calendar.setHandler(new EventClickHandler() {
-            @Override
-            public void eventClick(final EventClick event) {
-                setTrayVisible(false);
-                MovieEvent movieEvent = (MovieEvent) event.getCalendarEvent();
-                MovieDetailsWindow.open(movieEvent.getMovie(),
-                        movieEvent.getStart(), movieEvent.getEnd());
-            }
+        calendar.setHandler((EventClickHandler) event -> {
+            setTrayVisible(false);
+            MovieEvent movieEvent = (MovieEvent) event.getCalendarEvent();
+            MovieDetailsWindow.open(movieEvent.getMovie(),
+                    movieEvent.getStart(), movieEvent.getEnd());
         });
         calendarLayout.addComponent(calendar);
 
@@ -196,12 +181,9 @@ public final class ScheduleView extends CssLayout implements View {
             titleLabel.setWidth(120.0f, Unit.PIXELS);
             frame.addComponent(titleLabel);
 
-            frame.addLayoutClickListener(new LayoutClickListener() {
-                @Override
-                public void layoutClick(final LayoutClickEvent event) {
-                    if (event.getButton() == MouseButton.LEFT) {
-                        MovieDetailsWindow.open(movie, null, null);
-                    }
+            frame.addLayoutClickListener((LayoutClickListener) event -> {
+                if (event.getButton() == MouseButton.LEFT) {
+                    MovieDetailsWindow.open(movie, null, null);
                 }
             });
             catalog.addComponent(frame);
@@ -238,12 +220,7 @@ public final class ScheduleView extends CssLayout implements View {
 
         Button discard = new Button("Discard");
         discard.addClickListener(close);
-        discard.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                calendar.markAsDirty();
-            }
-        });
+        discard.addClickListener((ClickListener) event -> calendar.markAsDirty());
         tray.addComponent(discard);
         tray.setComponentAlignment(discard, Alignment.MIDDLE_LEFT);
         return tray;
@@ -309,9 +286,17 @@ public final class ScheduleView extends CssLayout implements View {
             return start;
         }
 
+        public void setStart(final Date start) {
+            this.start = start;
+        }
+
         @Override
         public Date getEnd() {
             return end;
+        }
+
+        public void setEnd(final Date end) {
+            this.end = end;
         }
 
         @Override
@@ -335,14 +320,6 @@ public final class ScheduleView extends CssLayout implements View {
 
         public void setMovie(final Movie movie) {
             this.movie = movie;
-        }
-
-        public void setStart(final Date start) {
-            this.start = start;
-        }
-
-        public void setEnd(final Date end) {
-            this.end = end;
         }
 
         @Override

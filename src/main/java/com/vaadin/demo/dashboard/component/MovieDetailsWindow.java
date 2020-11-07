@@ -1,28 +1,18 @@
 package com.vaadin.demo.dashboard.component;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.vaadin.demo.dashboard.domain.Movie;
 import com.vaadin.demo.dashboard.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.vaadin.demo.dashboard.event.DashboardEventBus;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Responsive;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public final class MovieDetailsWindow extends Window {
@@ -56,6 +46,15 @@ public final class MovieDetailsWindow extends Window {
         content.setExpandRatio(detailsWrapper, 1f);
 
         content.addComponent(buildFooter());
+    }
+
+    public static void open(final Movie movie, final Date startTime,
+                            final Date endTime) {
+        DashboardEventBus.post(new CloseOpenWindowsEvent());
+        Window w = new MovieDetailsWindow(movie, startTime, endTime);
+        UI.getCurrent()
+          .addWindow(w);
+        w.focus();
     }
 
     private Component buildFooter() {
@@ -165,14 +164,5 @@ public final class MovieDetailsWindow extends Window {
 
         }
         synopsis.setValue(synopsisText);
-    }
-
-    public static void open(final Movie movie, final Date startTime,
-                            final Date endTime) {
-        DashboardEventBus.post(new CloseOpenWindowsEvent());
-        Window w = new MovieDetailsWindow(movie, startTime, endTime);
-        UI.getCurrent()
-          .addWindow(w);
-        w.focus();
     }
 }

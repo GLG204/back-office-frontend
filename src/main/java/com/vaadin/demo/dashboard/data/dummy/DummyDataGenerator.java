@@ -1,13 +1,18 @@
 package com.vaadin.demo.dashboard.data.dummy;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.vaadin.addon.charts.model.style.Color;
 import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.demo.dashboard.domain.DashboardNotification;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 public abstract class DummyDataGenerator {
+
+    public static Color[] chartColors = new Color[]{
+            new SolidColor("#3090F0"), new SolidColor("#18DDBB"),
+            new SolidColor("#98DF58"), new SolidColor("#F9DD51"),
+            new SolidColor("#F09042"), new SolidColor("#EC6464")};
 
     static String randomFirstName() {
         return "Ali";
@@ -140,9 +145,4 @@ public abstract class DummyDataGenerator {
 
         return values;
     }
-
-    public static Color[] chartColors = new Color[]{
-            new SolidColor("#3090F0"), new SolidColor("#18DDBB"),
-            new SolidColor("#98DF58"), new SolidColor("#F9DD51"),
-            new SolidColor("#F09042"), new SolidColor("#EC6464")};
 }

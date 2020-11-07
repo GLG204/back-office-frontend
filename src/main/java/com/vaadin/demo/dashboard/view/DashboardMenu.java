@@ -1,18 +1,11 @@
 package com.vaadin.demo.dashboard.view;
 
-import java.util.Collection;
-
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.demo.dashboard.DashboardUI;
 import com.vaadin.demo.dashboard.component.ProfilePreferencesWindow;
 import com.vaadin.demo.dashboard.domain.Transaction;
 import com.vaadin.demo.dashboard.domain.User;
-import com.vaadin.demo.dashboard.event.DashboardEvent.NotificationsCountUpdatedEvent;
-import com.vaadin.demo.dashboard.event.DashboardEvent.PostViewChangeEvent;
-import com.vaadin.demo.dashboard.event.DashboardEvent.ProfileUpdatedEvent;
-import com.vaadin.demo.dashboard.event.DashboardEvent.ReportsCountUpdatedEvent;
-import com.vaadin.demo.dashboard.event.DashboardEvent.TransactionReportEvent;
-import com.vaadin.demo.dashboard.event.DashboardEvent.UserLoggedOutEvent;
+import com.vaadin.demo.dashboard.event.DashboardEvent.*;
 import com.vaadin.demo.dashboard.event.DashboardEventBus;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
@@ -21,24 +14,16 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.DragAndDropWrapper.DragStartMode;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.ui.AbstractSelect.AcceptItem;
 import com.vaadin.v7.ui.Table;
+
+import java.util.Collection;
 
 /**
  * A responsive menu component providing user information and the controls for
@@ -107,38 +92,20 @@ public final class DashboardMenu extends CustomComponent {
         settingsItem = settings.addItem("",
                 new ThemeResource("img/profile-pic-300px.jpg"), null);
         updateUserName(null);
-        settingsItem.addItem("Edit Profile", new Command() {
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                ProfilePreferencesWindow.open(user, false);
-            }
-        });
-        settingsItem.addItem("Preferences", new Command() {
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                ProfilePreferencesWindow.open(user, true);
-            }
-        });
+        settingsItem.addItem("Edit Profile", (Command) selectedItem -> ProfilePreferencesWindow.open(user, false));
+        settingsItem.addItem("Preferences", (Command) selectedItem -> ProfilePreferencesWindow.open(user, true));
         settingsItem.addSeparator();
-        settingsItem.addItem("Sign Out", new Command() {
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                DashboardEventBus.post(new UserLoggedOutEvent());
-            }
-        });
+        settingsItem.addItem("Sign Out", (Command) selectedItem -> DashboardEventBus.post(new UserLoggedOutEvent()));
         return settings;
     }
 
     private Component buildToggleButton() {
-        Button valoMenuToggleButton = new Button("Menu", new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                if (getCompositionRoot().getStyleName()
-                                        .contains(STYLE_VISIBLE)) {
-                    getCompositionRoot().removeStyleName(STYLE_VISIBLE);
-                } else {
-                    getCompositionRoot().addStyleName(STYLE_VISIBLE);
-                }
+        Button valoMenuToggleButton = new Button("Menu", (ClickListener) event -> {
+            if (getCompositionRoot().getStyleName()
+                                    .contains(STYLE_VISIBLE)) {
+                getCompositionRoot().removeStyleName(STYLE_VISIBLE);
+            } else {
+                getCompositionRoot().addStyleName(STYLE_VISIBLE);
             }
         });
         valoMenuToggleButton.setIcon(FontAwesome.LIST);

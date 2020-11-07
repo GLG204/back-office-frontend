@@ -1,7 +1,5 @@
 package com.vaadin.demo.dashboard;
 
-import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
-
 import com.vaadin.demo.dashboard.event.DashboardEvent.BrowserResizeEvent;
 import com.vaadin.demo.dashboard.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.vaadin.demo.dashboard.event.DashboardEvent.PostViewChangeEvent;
@@ -13,15 +11,15 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.navigator.ViewProvider;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
 
 @SuppressWarnings("serial")
 public class DashboardNavigator extends Navigator {
 
     // Provide a Google Analytics tracker id here
     private static final String TRACKER_ID = null;// "UA-658457-6";
-    private GoogleAnalyticsTracker tracker;
-
     private static final DashboardViewType ERROR_VIEW = DashboardViewType.DASHBOARD;
+    private GoogleAnalyticsTracker tracker;
     private ViewProvider errorViewProvider;
 
     public DashboardNavigator(final ComponentContainer container) {
@@ -30,9 +28,6 @@ public class DashboardNavigator extends Navigator {
         String host = getUI().getPage()
                              .getLocation()
                              .getHost();
-        if (TRACKER_ID != null && host.endsWith("demo.vaadin.com")) {
-            initGATracker(TRACKER_ID);
-        }
         initViewChangeListener();
         initViewProviders();
 

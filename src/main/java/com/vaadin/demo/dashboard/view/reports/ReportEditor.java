@@ -1,9 +1,5 @@
 package com.vaadin.demo.dashboard.view.reports;
 
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Iterator;
-
 import com.vaadin.demo.dashboard.component.InlineTextEditor;
 import com.vaadin.demo.dashboard.component.TopSixTheatersChart;
 import com.vaadin.demo.dashboard.component.TopTenMoviesTable;
@@ -21,17 +17,13 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DragAndDropWrapper;
+import com.vaadin.ui.*;
 import com.vaadin.ui.DragAndDropWrapper.DragStartMode;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Iterator;
 
 @SuppressWarnings({"serial", "unchecked"})
 public final class ReportEditor extends VerticalLayout {
@@ -103,12 +95,40 @@ public final class ReportEditor extends VerticalLayout {
         canvas.addComponent(paletteItemType, prefillData);
     }
 
+    public enum PaletteItemType {
+        TEXT("Text Block", FontAwesome.FONT), TABLE("Top 10 Movies",
+                FontAwesome.TABLE), CHART("Top 6 Revenue",
+                FontAwesome.BAR_CHART_O), TRANSACTIONS(
+                "Latest transactions", null);
+
+        private final String title;
+        private final FontAwesome icon;
+
+        PaletteItemType(final String title, final FontAwesome icon) {
+            this.title = title;
+            this.icon = icon;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public FontAwesome getIcon() {
+            return icon;
+        }
+
+    }
+
+    public interface ReportEditorListener {
+        void titleChanged(String newTitle, ReportEditor editor);
+    }
+
     public final class SortableLayout extends CustomComponent {
 
-        private VerticalLayout layout;
         private final DropHandler dropHandler;
-        private TextField titleLabel;
-        private DragAndDropWrapper placeholder;
+        private final VerticalLayout layout;
+        private final TextField titleLabel;
+        private final DragAndDropWrapper placeholder;
 
         public SortableLayout() {
             layout = new VerticalLayout();
@@ -294,34 +314,6 @@ public final class ReportEditor extends VerticalLayout {
                     layout.addComponent(sourceComponent, index);
                 }
             }
-        }
-
-    }
-
-    public interface ReportEditorListener {
-        void titleChanged(String newTitle, ReportEditor editor);
-    }
-
-    public enum PaletteItemType {
-        TEXT("Text Block", FontAwesome.FONT), TABLE("Top 10 Movies",
-                FontAwesome.TABLE), CHART("Top 6 Revenue",
-                FontAwesome.BAR_CHART_O), TRANSACTIONS(
-                "Latest transactions", null);
-
-        private final String title;
-        private final FontAwesome icon;
-
-        PaletteItemType(final String title, final FontAwesome icon) {
-            this.title = title;
-            this.icon = icon;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public FontAwesome getIcon() {
-            return icon;
         }
 
     }

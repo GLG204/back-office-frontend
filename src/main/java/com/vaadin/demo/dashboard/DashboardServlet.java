@@ -1,8 +1,8 @@
 package com.vaadin.demo.dashboard;
 
-import javax.servlet.ServletException;
-
 import com.vaadin.server.VaadinServlet;
+
+import javax.servlet.ServletException;
 
 @SuppressWarnings("serial")
 public class DashboardServlet extends VaadinServlet {

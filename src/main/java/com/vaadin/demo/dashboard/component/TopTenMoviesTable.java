@@ -1,11 +1,5 @@
 package com.vaadin.demo.dashboard.component;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.vaadin.demo.dashboard.DashboardUI;
 import com.vaadin.demo.dashboard.domain.MovieRevenue;
 import com.vaadin.ui.themes.ValoTheme;
@@ -13,24 +7,12 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.Table;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("serial")
 public final class TopTenMoviesTable extends Table {
-
-    @Override
-    protected String formatPropertyValue(final Object rowId, final Object colId,
-                                         final Property<?> property) {
-        String result = super.formatPropertyValue(rowId, colId, property);
-        if (colId.equals("revenue")) {
-            if (property != null && property.getValue() != null) {
-                Double r = (Double) property.getValue();
-                String ret = new DecimalFormat("#.##").format(r);
-                result = "" + ret;
-            } else {
-                result = "";
-            }
-        }
-        return result;
-    }
 
     public TopTenMoviesTable() {
         setCaption("Top 10 Critical Task");
@@ -61,6 +43,22 @@ public final class TopTenMoviesTable extends Table {
 
         setSortContainerPropertyId("revenue");
         setSortAscending(false);
+    }
+
+    @Override
+    protected String formatPropertyValue(final Object rowId, final Object colId,
+                                         final Property<?> property) {
+        String result = super.formatPropertyValue(rowId, colId, property);
+        if (colId.equals("revenue")) {
+            if (property != null && property.getValue() != null) {
+                Double r = (Double) property.getValue();
+                String ret = new DecimalFormat("#.##").format(r);
+                result = "" + ret;
+            } else {
+                result = "";
+            }
+        }
+        return result;
     }
 
 }

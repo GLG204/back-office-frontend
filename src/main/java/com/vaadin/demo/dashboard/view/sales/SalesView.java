@@ -1,16 +1,7 @@
 package com.vaadin.demo.dashboard.view.sales;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
 import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.DataSeries;
-import com.vaadin.addon.charts.model.DataSeriesItem;
-import com.vaadin.addon.charts.model.HorizontalAlign;
-import com.vaadin.addon.charts.model.Legend;
-import com.vaadin.addon.charts.model.VerticalAlign;
+import com.vaadin.addon.charts.model.*;
 import com.vaadin.demo.dashboard.DashboardUI;
 import com.vaadin.demo.dashboard.domain.Movie;
 import com.vaadin.demo.dashboard.domain.MovieRevenue;
@@ -19,16 +10,15 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Responsive;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class SalesView extends VerticalLayout implements View {
@@ -107,24 +97,18 @@ public class SalesView extends VerticalLayout implements View {
 
         final Button clear = new Button("Clear");
         clear.addStyleName("clearbutton");
-        clear.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                timeline.getConfiguration()
-                        .setSeries(new ArrayList<>());
-                timeline.drawChart();
-                initMovieSelect();
-                clear.setEnabled(false);
-            }
+        clear.addClickListener((ClickListener) event -> {
+            timeline.getConfiguration()
+                    .setSeries(new ArrayList<>());
+            timeline.drawChart();
+            initMovieSelect();
+            clear.setEnabled(false);
         });
         toolbar.addComponent(clear);
 
-        add.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                addDataSet(movieSelect.getValue());
-                clear.setEnabled(true);
-            }
+        add.addClickListener((ClickListener) event -> {
+            addDataSet(movieSelect.getValue());
+            clear.setEnabled(true);
         });
 
         return toolbar;

@@ -1,15 +1,5 @@
 package com.vaadin.demo.dashboard.view.transactions;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.demo.dashboard.DashboardUI;
@@ -25,32 +15,30 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Grid;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Grid.Column;
 import com.vaadin.ui.Grid.SelectionMode;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.SingleSelect;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.NumberRenderer;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("serial")
 public final class TransactionsView extends VerticalLayout implements View {
 
-    private final Grid<Transaction> grid;
-    private SingleSelect<Transaction> singleSelect;
-    private Button createReport;
-    private String filterValue = "";
     private static final DateFormat DATEFORMAT = new SimpleDateFormat(
             "MM/dd/yyyy hh:mm:ss a");
     private static final DecimalFormat DECIMALFORMAT = new DecimalFormat(
             "#.##");
     private static final Set<Column<Transaction, ?>> collapsibleColumns = new LinkedHashSet<>();
+    private final Grid<Transaction> grid;
+    private final SingleSelect<Transaction> singleSelect;
+    private Button createReport;
+    private String filterValue = "";
 
     public TransactionsView() {
         setSizeFull();

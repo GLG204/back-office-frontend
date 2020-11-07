@@ -12,30 +12,6 @@ public final class Movie {
     private Date releaseDate;
     private int score;
 
-    public void setId(final long id) {
-        this.id = id;
-    }
-
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
-    public void setSynopsis(final String synopsis) {
-        this.synopsis = synopsis;
-    }
-
-    public void setThumbUrl(final String thumbUrl) {
-        this.thumbUrl = thumbUrl;
-    }
-
-    public void setPosterUrl(final String posterUrl) {
-        this.posterUrl = posterUrl;
-    }
-
-    public void setDuration(final int duration) {
-        this.duration = duration;
-    }
-
     public Date getReleaseDate() {
         return releaseDate;
     }
@@ -56,24 +32,48 @@ public final class Movie {
         return title;
     }
 
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
     public String getSynopsis() {
         return synopsis;
+    }
+
+    public void setSynopsis(final String synopsis) {
+        this.synopsis = synopsis;
     }
 
     public String getThumbUrl() {
         return thumbUrl;
     }
 
+    public void setThumbUrl(final String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
     public String getPosterUrl() {
         return posterUrl;
+    }
+
+    public void setPosterUrl(final String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 
     public int getDuration() {
         return duration;
     }
 
+    public void setDuration(final int duration) {
+        this.duration = duration;
+    }
+
     public long getId() {
         return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
     }
 
 }

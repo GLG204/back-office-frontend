@@ -1,7 +1,5 @@
 package com.vaadin.demo.dashboard.component;
 
-import java.util.Iterator;
-
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -10,6 +8,8 @@ import com.vaadin.v7.data.util.MethodProperty;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.CustomField;
+
+import java.util.Iterator;
 
 /*
  * This component extends a CustomField and implements all the necessary
@@ -22,11 +22,6 @@ public final class OptionalSelect<T> extends CustomField<T> {
     private final ComboBox comboBox;
     private final HorizontalLayout content;
 
-    @Override
-    protected Component initContent() {
-        return content;
-    }
-
     public OptionalSelect() {
         content = new HorizontalLayout();
         content.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
@@ -38,14 +33,8 @@ public final class OptionalSelect<T> extends CustomField<T> {
         comboBox.addStyleName(ValoTheme.COMBOBOX_SMALL);
         comboBox.setWidth(10.0f, Unit.EM);
         comboBox.setEnabled(false);
-        comboBox.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(
-                    final com.vaadin.v7.data.Property.ValueChangeEvent event) {
-                setValue((T) event.getProperty()
-                                  .getValue());
-            }
-        });
+        comboBox.addValueChangeListener((ValueChangeListener) event -> setValue((T) event.getProperty()
+                                                                                         .getValue()));
         content.addComponent(comboBox);
 
         checkBox = new CheckBox("Subscribe to newsletter", false);
@@ -71,6 +60,11 @@ public final class OptionalSelect<T> extends CustomField<T> {
         });
 
         content.addComponent(checkBox, 0);
+    }
+
+    @Override
+    protected Component initContent() {
+        return content;
     }
 
     @Override
