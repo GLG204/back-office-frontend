@@ -1,7 +1,5 @@
 package com.vaadin.demo.dashboard;
 
-import java.util.Locale;
-
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -17,7 +15,6 @@ import com.vaadin.demo.dashboard.event.DashboardEventBus;
 import com.vaadin.demo.dashboard.view.LoginView;
 import com.vaadin.demo.dashboard.view.MainView;
 import com.vaadin.server.Page;
-import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
@@ -25,6 +22,8 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.util.Locale;
 
 @Theme("dashboard")
 @Widgetset("com.vaadin.demo.dashboard.DashboardWidgetSet")
@@ -41,6 +40,17 @@ public final class DashboardUI extends UI {
     private final DataProvider dataProvider = new DummyDataProvider();
     private final DashboardEventBus dashboardEventbus = new DashboardEventBus();
 
+    /**
+     * @return An instance for accessing the (dummy) services layer.
+     */
+    public static DataProvider getDataProvider() {
+        return ((DashboardUI) getCurrent()).dataProvider;
+    }
+
+    public static DashboardEventBus getDashboardEventbus() {
+        return ((DashboardUI) getCurrent()).dashboardEventbus;
+    }
+
     @Override
     protected void init(final VaadinRequest request) {
         setLocale(Locale.US);
@@ -55,13 +65,7 @@ public final class DashboardUI extends UI {
         // BrowserResizeEvent gets fired to the event bus on every occasion.
         Page.getCurrent()
             .addBrowserWindowResizeListener(
-                    new BrowserWindowResizeListener() {
-                        @Override
-                        public void browserWindowResized(
-                                final BrowserWindowResizeEvent event) {
-                            DashboardEventBus.post(new BrowserResizeEvent());
-                        }
-                    });
+                    (BrowserWindowResizeListener) event -> DashboardEventBus.post(new BrowserResizeEvent()));
     }
 
     /**
@@ -108,16 +112,5 @@ public final class DashboardUI extends UI {
         for (Window window : getWindows()) {
             window.close();
         }
-    }
-
-    /**
-     * @return An instance for accessing the (dummy) services layer.
-     */
-    public static DataProvider getDataProvider() {
-        return ((DashboardUI) getCurrent()).dataProvider;
-    }
-
-    public static DashboardEventBus getDashboardEventbus() {
-        return ((DashboardUI) getCurrent()).dashboardEventbus;
     }
 }

@@ -1,8 +1,5 @@
 package com.vaadin.demo.dashboard.view.dashboard;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.demo.dashboard.DashboardUI;
 import com.vaadin.demo.dashboard.component.SparklineChart;
@@ -15,30 +12,20 @@ import com.vaadin.demo.dashboard.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.vaadin.demo.dashboard.event.DashboardEvent.NotificationsCountUpdatedEvent;
 import com.vaadin.demo.dashboard.event.DashboardEventBus;
 import com.vaadin.demo.dashboard.view.dashboard.DashboardEdit.DashboardEditListener;
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Responsive;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.util.Collection;
 
 @SuppressWarnings("serial")
 public final class DashboardView extends Panel implements View,
@@ -46,11 +33,10 @@ public final class DashboardView extends Panel implements View,
 
     public static final String EDIT_ID = "dashboard-edit";
     public static final String TITLE_ID = "dashboard-title";
-
+    private final VerticalLayout root;
     private Label titleLabel;
     private NotificationsButton notificationsButton;
     private CssLayout dashboardPanels;
-    private final VerticalLayout root;
     private Window notificationsWindow;
 
     public DashboardView() {
@@ -75,12 +61,7 @@ public final class DashboardView extends Panel implements View,
 
         // All the open sub-windows should be closed whenever the root layout
         // gets clicked.
-        root.addLayoutClickListener(new LayoutClickListener() {
-            @Override
-            public void layoutClick(final LayoutClickEvent event) {
-                DashboardEventBus.post(new CloseOpenWindowsEvent());
-            }
-        });
+        root.addLayoutClickListener((LayoutClickListener) event -> DashboardEventBus.post(new CloseOpenWindowsEvent()));
     }
 
     private Component buildSparklines() {
@@ -130,12 +111,7 @@ public final class DashboardView extends Panel implements View,
 
     private NotificationsButton buildNotificationsButton() {
         NotificationsButton result = new NotificationsButton();
-        result.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                openNotificationsPopup(event);
-            }
-        });
+        result.addClickListener((ClickListener) event -> openNotificationsPopup(event));
         return result;
     }
 
@@ -146,14 +122,9 @@ public final class DashboardView extends Panel implements View,
         result.addStyleName("icon-edit");
         result.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         result.setDescription("Edit Dashboard");
-        result.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                getUI().addWindow(
-                        new DashboardEdit(DashboardView.this, titleLabel
-                                .getValue()));
-            }
-        });
+        result.addClickListener((ClickListener) event -> getUI().addWindow(
+                new DashboardEdit(DashboardView.this, titleLabel
+                        .getValue())));
         return result;
     }
 
@@ -218,36 +189,22 @@ public final class DashboardView extends Panel implements View,
 
         MenuBar tools = new MenuBar();
         tools.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
-        MenuItem max = tools.addItem("", FontAwesome.EXPAND, new Command() {
-
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                if (!slot.getStyleName()
-                         .contains("max")) {
-                    selectedItem.setIcon(FontAwesome.COMPRESS);
-                    toggleMaximized(slot, true);
-                } else {
-                    slot.removeStyleName("max");
-                    selectedItem.setIcon(FontAwesome.EXPAND);
-                    toggleMaximized(slot, false);
-                }
+        MenuItem max = tools.addItem("", FontAwesome.EXPAND, (Command) selectedItem -> {
+            if (!slot.getStyleName()
+                     .contains("max")) {
+                selectedItem.setIcon(FontAwesome.COMPRESS);
+                toggleMaximized(slot, true);
+            } else {
+                slot.removeStyleName("max");
+                selectedItem.setIcon(FontAwesome.EXPAND);
+                toggleMaximized(slot, false);
             }
         });
         max.setStyleName("icon-only");
         MenuItem root = tools.addItem("", FontAwesome.COG, null);
-        root.addItem("Configure", new Command() {
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                Notification.show("under development");
-            }
-        });
+        root.addItem("Configure", (Command) selectedItem -> Notification.show("under development"));
         root.addSeparator();
-        root.addItem("Close", new Command() {
-            @Override
-            public void menuSelected(final MenuItem selectedItem) {
-                Notification.show("under development");
-            }
-        });
+        root.addItem("Close", (Command) selectedItem -> Notification.show("under development"));
 
         toolbar.addComponents(caption, tools);
         toolbar.setExpandRatio(caption, 1);
@@ -298,12 +255,7 @@ public final class DashboardView extends Panel implements View,
         footer.setWidth("100%");
         footer.setSpacing(false);
         Button showAll = new Button("View All Notifications",
-                new ClickListener() {
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        Notification.show("under development");
-                    }
-                });
+                (ClickListener) event1 -> Notification.show("under development"));
         showAll.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
         showAll.addStyleName(ValoTheme.BUTTON_SMALL);
         footer.addComponent(showAll);
@@ -342,14 +294,13 @@ public final class DashboardView extends Panel implements View,
     }
 
     private void toggleMaximized(final Component panel, final boolean maximized) {
-        for (Iterator<Component> it = root.iterator(); it.hasNext(); ) {
-            it.next()
-              .setVisible(!maximized);
+        for (Component component : root) {
+            component
+                    .setVisible(!maximized);
         }
         dashboardPanels.setVisible(true);
 
-        for (Iterator<Component> it = dashboardPanels.iterator(); it.hasNext(); ) {
-            Component c = it.next();
+        for (Component c : dashboardPanels) {
             c.setVisible(!maximized);
         }
 
@@ -362,8 +313,8 @@ public final class DashboardView extends Panel implements View,
     }
 
     public static final class NotificationsButton extends Button {
-        private static final String STYLE_UNREAD = "unread";
         public static final String ID = "dashboard-notifications";
+        private static final String STYLE_UNREAD = "unread";
 
         public NotificationsButton() {
             setIcon(FontAwesome.BELL);

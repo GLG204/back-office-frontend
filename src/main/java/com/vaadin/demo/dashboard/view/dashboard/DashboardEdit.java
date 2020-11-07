@@ -1,15 +1,8 @@
 package com.vaadin.demo.dashboard.view.dashboard;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -54,22 +47,14 @@ public class DashboardEdit extends Window {
         footer.setWidth(100.0f, Unit.PERCENTAGE);
 
         Button cancel = new Button("Cancel");
-        cancel.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                close();
-            }
-        });
+        cancel.addClickListener((ClickListener) event -> close());
         cancel.setClickShortcut(KeyCode.ESCAPE, null);
 
         Button save = new Button("Save");
         save.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        save.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                listener.dashboardNameEdited(nameField.getValue());
-                close();
-            }
+        save.addClickListener((ClickListener) event -> {
+            listener.dashboardNameEdited(nameField.getValue());
+            close();
         });
         save.setClickShortcut(KeyCode.ENTER, null);
 

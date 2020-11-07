@@ -1,22 +1,22 @@
 # Back Office
-##The frontend for this project
+## The frontend for this project
 
 1- Run mvn -Pproduction-mode jetty:run
 
-#######login page
+###### login page
 ![alt text](images/1.png)
 
-#######main page
+###### main page
 ![alt text](images/2.png)
 
-#######SIP trafic
+###### SIP trafic
 ![alt text](images/3.png)
 
-#######Transaction Page
+###### Transaction Page
 ![alt text](images/4.png)
 
-#######Report Page
+###### Report Page
 ![alt text](images/5.png)
 
-#######Task TODO
+###### Task TODO
 ![alt text](images/6.png)

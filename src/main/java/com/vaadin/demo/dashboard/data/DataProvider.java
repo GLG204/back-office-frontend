@@ -1,13 +1,9 @@
 package com.vaadin.demo.dashboard.data;
 
+import com.vaadin.demo.dashboard.domain.*;
+
 import java.util.Collection;
 import java.util.Date;
-
-import com.vaadin.demo.dashboard.domain.DashboardNotification;
-import com.vaadin.demo.dashboard.domain.Movie;
-import com.vaadin.demo.dashboard.domain.MovieRevenue;
-import com.vaadin.demo.dashboard.domain.Transaction;
-import com.vaadin.demo.dashboard.domain.User;
 
 /**
  * QuickTickets Dashboard backend API.

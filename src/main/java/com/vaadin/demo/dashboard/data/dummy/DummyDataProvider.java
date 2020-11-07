@@ -1,47 +1,22 @@
 package com.vaadin.demo.dashboard.data.dummy;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vaadin.demo.dashboard.data.DataProvider;
-import com.vaadin.demo.dashboard.domain.DashboardNotification;
-import com.vaadin.demo.dashboard.domain.Movie;
-import com.vaadin.demo.dashboard.domain.MovieRevenue;
-import com.vaadin.demo.dashboard.domain.Transaction;
-import com.vaadin.demo.dashboard.domain.User;
+import com.vaadin.demo.dashboard.domain.*;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.util.CurrentInstance;
+
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * A dummy implementation for the backend API.
@@ -50,16 +25,43 @@ public class DummyDataProvider implements DataProvider {
 
     // TODO: Get API key from http://developer.rottentomatoes.com
     private static final String ROTTEN_TOMATOES_API_KEY = null;
+    private static final Random rand = new Random();
+    /**
+     * =========================================================================
+     * Countries, cities, theaters and rooms
+     * =========================================================================
+     */
 
+    static List<String> theaters = new ArrayList<String>() {
+        private static final long serialVersionUID = 1L;
+
+        {
+            add("Threater 1");
+            add("Threater 2");
+            add("Threater 3");
+            add("Threater 4");
+            add("Threater 5");
+            add("Threater 6");
+        }
+    };
+    static List<String> rooms = new ArrayList<String>() {
+        private static final long serialVersionUID = 1L;
+
+        {
+            add("Room 1");
+            add("Room 2");
+            add("Room 3");
+            add("Room 4");
+            add("Room 5");
+            add("Room 6");
+        }
+    };
     /* List of countries and cities for them */
     private static Multimap<String, String> countryToCities;
     private static Date lastDataUpdate;
     private static Collection<Movie> movies;
     private static Multimap<Long, Transaction> transactions;
     private static Multimap<Long, MovieRevenue> revenue;
-
-    private static final Random rand = new Random();
-
     private final Collection<DashboardNotification> notifications = DummyDataGenerator
             .randomNotifications();
 
@@ -73,23 +75,6 @@ public class DummyDataProvider implements DataProvider {
             refreshStaticData();
             lastDataUpdate = new Date();
         }
-    }
-
-    private void refreshStaticData() {
-        countryToCities = loadTheaterData();
-        movies = loadMoviesData();
-        transactions = generateTransactionsData();
-        revenue = countRevenues();
-    }
-
-    /**
-     * Get a list of movies currently playing in theaters.
-     *
-     * @return a list of Movie objects
-     */
-    @Override
-    public Collection<Movie> getMovies() {
-        return Collections.unmodifiableCollection(movies);
     }
 
     /**
@@ -116,20 +101,7 @@ public class DummyDataProvider implements DataProvider {
                 // Use cache if it's under 24h old
                 json = readJsonFromFile(cache);
             } else {
-                if (ROTTEN_TOMATOES_API_KEY != null) {
-                    try {
-                        json = readJsonFromUrl("http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json?page_limit=30&apikey="
-                                + ROTTEN_TOMATOES_API_KEY);
-                        // Store in cache
-                        FileWriter fileWriter = new FileWriter(cache);
-                        fileWriter.write(json.toString());
-                        fileWriter.close();
-                    } catch (Exception e) {
-                        json = readJsonFromFile(new File(baseDirectory + "/asterisk-fallback.txt"));
-                    }
-                } else {
-                    json = readJsonFromFile(new File(baseDirectory + "/asterisk-fallback.txt"));
-                }
+                json = readJsonFromFile(new File(baseDirectory + "/asterisk-fallback.txt"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,16 +180,12 @@ public class DummyDataProvider implements DataProvider {
 
     /* JSON utility method */
     private static JsonObject readJsonFromUrl(String url) throws IOException {
-        InputStream is = new URL(url).openStream();
-        try {
+        try (InputStream is = new URL(url).openStream()) {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is,
-                    Charset.forName("UTF-8")));
+                    StandardCharsets.UTF_8));
             String jsonText = readAll(rd);
-            JsonElement jelement = new JsonParser().parse(jsonText);
-            JsonObject jobject = jelement.getAsJsonObject();
-            return jobject;
-        } finally {
-            is.close();
+            JsonElement element = new JsonParser().parse(jsonText);
+            return element.getAsJsonObject();
         }
     }
 
@@ -225,42 +193,9 @@ public class DummyDataProvider implements DataProvider {
     private static JsonObject readJsonFromFile(File path) throws IOException {
         BufferedReader rd = new BufferedReader(new FileReader(path));
         String jsonText = readAll(rd);
-        JsonElement jelement = new JsonParser().parse(jsonText);
-        JsonObject jobject = jelement.getAsJsonObject();
-        return jobject;
+        JsonElement element = new JsonParser().parse(jsonText);
+        return element.getAsJsonObject();
     }
-
-    /**
-     * =========================================================================
-     * Countries, cities, theaters and rooms
-     * =========================================================================
-     */
-
-    static List<String> theaters = new ArrayList<String>() {
-        private static final long serialVersionUID = 1L;
-
-        {
-            add("Threater 1");
-            add("Threater 2");
-            add("Threater 3");
-            add("Threater 4");
-            add("Threater 5");
-            add("Threater 6");
-        }
-    };
-
-    static List<String> rooms = new ArrayList<String>() {
-        private static final long serialVersionUID = 1L;
-
-        {
-            add("Room 1");
-            add("Room 2");
-            add("Room 3");
-            add("Room 4");
-            add("Room 5");
-            add("Room 6");
-        }
-    };
 
     /**
      * Parse the list of countries and cities
@@ -268,7 +203,7 @@ public class DummyDataProvider implements DataProvider {
     private static Multimap<String, String> loadTheaterData() {
 
         /* First, read the text file into a string */
-        StringBuffer fileData = new StringBuffer(2000);
+        StringBuilder fileData = new StringBuilder(2000);
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 DummyDataProvider.class.getResourceAsStream("cities.txt")));
 
@@ -307,6 +242,33 @@ public class DummyDataProvider implements DataProvider {
 
         return countryToCities;
 
+    }
+
+    public static Movie getMovieForTitle(String title) {
+        for (Movie movie : movies) {
+            if (movie.getTitle()
+                     .equals(title)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+    private void refreshStaticData() {
+        countryToCities = loadTheaterData();
+        movies = loadMoviesData();
+        transactions = generateTransactionsData();
+        revenue = countRevenues();
+    }
+
+    /**
+     * Get a list of movies currently playing in theaters.
+     *
+     * @return a list of Movie objects
+     */
+    @Override
+    public Collection<Movie> getMovies() {
+        return Collections.unmodifiableCollection(movies);
     }
 
     /**
@@ -389,16 +351,6 @@ public class DummyDataProvider implements DataProvider {
 
         return result;
 
-    }
-
-    public static Movie getMovieForTitle(String title) {
-        for (Movie movie : movies) {
-            if (movie.getTitle()
-                     .equals(title)) {
-                return movie;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -494,23 +446,13 @@ public class DummyDataProvider implements DataProvider {
     @Override
     public Collection<MovieRevenue> getTotalMovieRevenues() {
         return Collections2.transform(movies,
-                new Function<Movie, MovieRevenue>() {
-                    @Override
-                    public MovieRevenue apply(Movie input) {
-                        return Iterables.getLast(getDailyRevenuesByMovie(input
-                                .getId()));
-                    }
-                });
+                input -> Iterables.getLast(getDailyRevenuesByMovie(input
+                        .getId())));
     }
 
     @Override
     public int getUnreadNotificationsCount() {
-        Predicate<DashboardNotification> unreadPredicate = new Predicate<DashboardNotification>() {
-            @Override
-            public boolean apply(DashboardNotification input) {
-                return !input.isRead();
-            }
-        };
+        Predicate<DashboardNotification> unreadPredicate = input -> !input.isRead();
         return Collections2.filter(notifications, unreadPredicate)
                            .size();
     }
@@ -534,26 +476,22 @@ public class DummyDataProvider implements DataProvider {
 
     @Override
     public Movie getMovie(final long movieId) {
-        return Iterables.find(movies, new Predicate<Movie>() {
-            @Override
-            public boolean apply(Movie input) {
-                return input.getId() == movieId;
-            }
-        });
+        return movies.stream()
+                     .filter(input -> input.getId() == movieId)
+                     .findFirst()
+                     .get();
     }
 
     @Override
     public Collection<Transaction> getTransactionsBetween(final Date startDate,
                                                           final Date endDate) {
         return Collections2.filter(transactions.values(),
-                new Predicate<Transaction>() {
-                    @Override
-                    public boolean apply(Transaction input) {
-                        return !input.getTime()
-                                     .before(startDate)
-                                && !input.getTime()
-                                         .after(endDate);
-                    }
+                input -> {
+                    assert input != null;
+                    return !input.getTime()
+                                 .before(startDate)
+                            && !input.getTime()
+                                     .after(endDate);
                 });
     }
 

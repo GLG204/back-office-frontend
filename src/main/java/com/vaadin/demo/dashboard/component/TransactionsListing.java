@@ -1,14 +1,14 @@
 package com.vaadin.demo.dashboard.component;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-
 import com.vaadin.demo.dashboard.domain.Transaction;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 
 @SuppressWarnings("serial")
 public class TransactionsListing extends CssLayout {
@@ -21,8 +21,8 @@ public class TransactionsListing extends CssLayout {
 
         if (transactions != null) {
             for (Transaction transaction : transactions) {
-                CssLayout transationLayout = new CssLayout();
-                transationLayout.addStyleName("transaction");
+                CssLayout translationLayout = new CssLayout();
+                translationLayout.addStyleName("transaction");
 
                 Label content = new Label(df.format((transaction.getTime()))
                         + "<br>" + transaction.getCity() + ", "
@@ -30,12 +30,12 @@ public class TransactionsListing extends CssLayout {
                 content.setSizeUndefined();
                 content.setContentMode(ContentMode.HTML);
                 content.addStyleName("time");
-                transationLayout.addComponent(content);
+                translationLayout.addComponent(content);
 
                 content = new Label(transaction.getTitle());
                 content.setSizeUndefined();
                 content.addStyleName("movie-title");
-                transationLayout.addComponent(content);
+                translationLayout.addComponent(content);
 
                 content = new Label("Seats: "
                         + transaction.getSeats()
@@ -45,9 +45,9 @@ public class TransactionsListing extends CssLayout {
                         .getPrice()), ContentMode.HTML);
                 content.setSizeUndefined();
                 content.addStyleName("seats");
-                transationLayout.addComponent(content);
+                translationLayout.addComponent(content);
 
-                addComponent(transationLayout);
+                addComponent(translationLayout);
             }
 
         }

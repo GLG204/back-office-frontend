@@ -1,9 +1,9 @@
 package com.vaadin.demo.dashboard.event;
 
-import java.util.Collection;
-
 import com.vaadin.demo.dashboard.domain.Transaction;
 import com.vaadin.demo.dashboard.view.DashboardViewType;
+
+import java.util.Collection;
 
 /*
  * Event bus events used in Dashboard are listed here as inner classes.

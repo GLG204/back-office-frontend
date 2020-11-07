@@ -1,42 +1,22 @@
 package com.vaadin.demo.dashboard.component;
 
-import java.util.Arrays;
-
 import com.vaadin.annotations.PropertyId;
 import com.vaadin.demo.dashboard.domain.User;
 import com.vaadin.demo.dashboard.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.vaadin.demo.dashboard.event.DashboardEvent.ProfileUpdatedEvent;
 import com.vaadin.demo.dashboard.event.DashboardEventBus;
 import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
-import com.vaadin.server.Responsive;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.UserError;
+import com.vaadin.server.*;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.RadioButtonGroup;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+
+import java.util.Arrays;
 
 @SuppressWarnings("serial")
 public class ProfilePreferencesWindow extends Window {
@@ -112,6 +92,15 @@ public class ProfilePreferencesWindow extends Window {
         fieldGroup.setItemDataSource(user);
     }
 
+    public static void open(final User user,
+                            final boolean preferencesTabActive) {
+        DashboardEventBus.post(new CloseOpenWindowsEvent());
+        Window w = new ProfilePreferencesWindow(user, preferencesTabActive);
+        UI.getCurrent()
+          .addWindow(w);
+        w.focus();
+    }
+
     private Component buildPreferencesTab() {
         VerticalLayout root = new VerticalLayout();
         root.setCaption("Preferences");
@@ -145,12 +134,7 @@ public class ProfilePreferencesWindow extends Window {
         profilePic.setWidth(100.0f, Unit.PIXELS);
         pic.addComponent(profilePic);
 
-        Button upload = new Button("Change…", new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                Notification.show("under development");
-            }
-        });
+        Button upload = new Button("Change…", (ClickListener) event -> Notification.show("under development"));
         upload.addStyleName(ValoTheme.BUTTON_TINY);
         pic.addComponent(upload);
 
@@ -197,7 +181,7 @@ public class ProfilePreferencesWindow extends Window {
         phoneField.setWidth("100%");
         details.addComponent(phoneField);
 
-        newsletterField = new OptionalSelect<Integer>();
+        newsletterField = new OptionalSelect<>();
         newsletterField.addOption(0, "Daily");
         newsletterField.addOption(1, "Weekly");
         newsletterField.addOption(2, "Monthly");
@@ -229,42 +213,30 @@ public class ProfilePreferencesWindow extends Window {
 
         Button ok = new Button("OK");
         ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        ok.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    fieldGroup.commit();
-                    // Updated user should also be persisted to database. But
-                    // not in this demo.
+        ok.addClickListener((ClickListener) event -> {
+            try {
+                fieldGroup.commit();
+                // Updated user should also be persisted to database. But
+                // not in this demo.
 
-                    Notification success = new Notification(
-                            "Profile updated successfully");
-                    success.setDelayMsec(2000);
-                    success.setStyleName("bar success small");
-                    success.setPosition(Position.BOTTOM_CENTER);
-                    success.show(Page.getCurrent());
+                Notification success = new Notification(
+                        "Profile updated successfully");
+                success.setDelayMsec(2000);
+                success.setStyleName("bar success small");
+                success.setPosition(Position.BOTTOM_CENTER);
+                success.show(Page.getCurrent());
 
-                    DashboardEventBus.post(new ProfileUpdatedEvent());
-                    close();
-                } catch (CommitException e) {
-                    Notification.show("Error while updating profile",
-                            Type.ERROR_MESSAGE);
-                }
-
+                DashboardEventBus.post(new ProfileUpdatedEvent());
+                close();
+            } catch (CommitException e) {
+                Notification.show("Error while updating profile",
+                        Type.ERROR_MESSAGE);
             }
+
         });
         ok.focus();
         footer.addComponent(ok);
         footer.setComponentAlignment(ok, Alignment.TOP_RIGHT);
         return footer;
-    }
-
-    public static void open(final User user,
-                            final boolean preferencesTabActive) {
-        DashboardEventBus.post(new CloseOpenWindowsEvent());
-        Window w = new ProfilePreferencesWindow(user, preferencesTabActive);
-        UI.getCurrent()
-          .addWindow(w);
-        w.focus();
     }
 }

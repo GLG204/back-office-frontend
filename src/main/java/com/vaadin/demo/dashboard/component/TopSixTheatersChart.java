@@ -1,17 +1,13 @@
 package com.vaadin.demo.dashboard.component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.ChartType;
-import com.vaadin.addon.charts.model.Credits;
-import com.vaadin.addon.charts.model.DataSeries;
-import com.vaadin.addon.charts.model.DataSeriesItem;
-import com.vaadin.addon.charts.model.PlotOptionsPie;
+import com.vaadin.addon.charts.model.*;
 import com.vaadin.demo.dashboard.DashboardUI;
 import com.vaadin.demo.dashboard.data.dummy.DummyDataGenerator;
 import com.vaadin.demo.dashboard.domain.Movie;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class TopSixTheatersChart extends Chart {

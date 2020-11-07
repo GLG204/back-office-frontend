@@ -2,12 +2,7 @@ package com.vaadin.demo.dashboard.component;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.RichTextArea;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")

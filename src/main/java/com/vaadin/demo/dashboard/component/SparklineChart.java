@@ -1,25 +1,7 @@
 package com.vaadin.demo.dashboard.component;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.AxisTitle;
-import com.vaadin.addon.charts.model.ChartType;
-import com.vaadin.addon.charts.model.Configuration;
-import com.vaadin.addon.charts.model.Credits;
-import com.vaadin.addon.charts.model.DashStyle;
-import com.vaadin.addon.charts.model.DataLabels;
-import com.vaadin.addon.charts.model.DataSeries;
-import com.vaadin.addon.charts.model.DataSeriesItem;
-import com.vaadin.addon.charts.model.Labels;
-import com.vaadin.addon.charts.model.Legend;
-import com.vaadin.addon.charts.model.Marker;
-import com.vaadin.addon.charts.model.PlotOptionsLine;
-import com.vaadin.addon.charts.model.XAxis;
-import com.vaadin.addon.charts.model.YAxis;
+import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.Color;
 import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.demo.dashboard.data.dummy.DummyDataGenerator;
@@ -29,6 +11,10 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class SparklineChart extends VerticalLayout {
@@ -85,8 +71,8 @@ public class SparklineChart extends VerticalLayout {
         spark.setHeight("40px");
 
         DataSeries series = new DataSeries();
-        for (int i = 0; i < values.length; i++) {
-            DataSeriesItem item = new DataSeriesItem("", values[i]);
+        for (int value : values) {
+            DataSeriesItem item = new DataSeriesItem("", value);
             series.add(item);
         }
         spark.getConfiguration()
