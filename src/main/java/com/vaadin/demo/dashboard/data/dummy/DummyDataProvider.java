@@ -36,24 +36,24 @@ public class DummyDataProvider implements DataProvider {
         private static final long serialVersionUID = 1L;
 
         {
-            add("Threater 1");
-            add("Threater 2");
-            add("Threater 3");
-            add("Threater 4");
-            add("Threater 5");
-            add("Threater 6");
+            add("Premium 1");
+            add("Silver 2");
+            add("Silver 3");
+            add("Bronze 1");
+            add("Bronze 2");
+            add("Gold 1");
         }
     };
     static List<String> rooms = new ArrayList<String>() {
         private static final long serialVersionUID = 1L;
 
         {
-            add("Room 1");
-            add("Room 2");
-            add("Room 3");
-            add("Room 4");
-            add("Room 5");
-            add("Room 6");
+            add("Plan 1");
+            add("Plan 2");
+            add("Plan 3");
+            add("Plan 4");
+            add("Plan 5");
+            add("Plan 6");
         }
     };
     /* List of countries and cities for them */
